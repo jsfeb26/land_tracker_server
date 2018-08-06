@@ -3,7 +3,7 @@ const app = express();
 
 // route handler for get request to '/'
 app.get("/", (req, res) => {
-  res.send({ hi: "there" });
+  res.send({ hi: "poop master" });
 });
 
 // check environment to see if PORT is set
