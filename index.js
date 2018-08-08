@@ -10,12 +10,14 @@ mongoose.connect(keys.mongoURI);
 
 const app = express();
 
+// these are middlewares that allow you to modify request before it's sent off
+// to route handlers
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     keys: [keys.cookieKey]
   })
-);
+); // adds cookie data to req.session so passport can use it
 app.use(passport.initialize());
 app.use(passport.session());
 
