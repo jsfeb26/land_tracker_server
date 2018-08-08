@@ -1,6 +1,12 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const mongoose = require("mongoose");
 const keys = require("../config/keys");
+
+// doing this instead of requiring because you can run into
+// issues when in testing environment where the file gets
+// required multiple times
+const User = mongoose.model("users"); // get User Model
 
 // new GoogleStrategy() creates new instance of GoogleStrategy
 // tell passport about new strategy
@@ -11,10 +17,15 @@ passport.use(
       clientSecret: keys.googleClientSecret,
       callbackURL: "/auth/google/callback"
     },
-    (accessToken, refreshToken, profile, done) => {
-      console.log(accessToken);
-      console.log(refreshToken);
-      console.log(profile);
+    async (accessToken, refreshToken, profile, done) => {
+      const existingUser = await User.findOne({ googleId: profile.id });
+
+      if (existingUser) {
+        done(null, existingUser);
+      } else {
+        const newUser = await new User({ googleId: profile.id }).save();
+        done(null, newUser);
+      }
     }
   )
 );
