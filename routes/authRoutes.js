@@ -10,12 +10,15 @@ module.exports = app => {
   );
 
   // route handler for /auth/google/callback
-  app.get("/auth/google/callback", passport.authenticate("google"));
+  // uses passport authenticate midddleware and redirects to /mailings
+  app.get("/auth/google/callback", passport.authenticate("google"), (req, res) => {
+    res.redirect("/mailings");
+  });
 
   // route handler for /api/
   app.get("/api/logout", (req, res) => {
     req.logout();
-    res.send(req.user);
+    res.redirect("/");
   });
 
   // route handler for /api/current_user
