@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 const keys = require("./config/keys");
 require("./models/User");
 require("./models/Organization");
+require("./models/Parcel");
 require("./services/passport");
 
 mongoose.connect(keys.mongoURI);
@@ -26,6 +27,8 @@ app.use(passport.session());
 
 require("./routes/authRoutes")(app);
 require("./routes/billingRoutes")(app);
+require("./routes/organizationRoutes")(app);
+require("./routes/parcelRoutes")(app);
 
 // handle client side routing when in production
 if (process.env.NODE_ENV === "production") {
