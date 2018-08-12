@@ -3,6 +3,8 @@ const mongoose = require("mongoose");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
 const bodyParser = require("body-parser");
+const cors = require("cors");
+const fileUpload = require("express-fileupload");
 const keys = require("./config/keys");
 require("./models/User");
 require("./models/Organization");
@@ -24,6 +26,8 @@ app.use(
 ); // adds cookie data to req.session so passport can use it
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(cors());
+app.use(fileUpload());
 
 require("./routes/authRoutes")(app);
 require("./routes/billingRoutes")(app);
