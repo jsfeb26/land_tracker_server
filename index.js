@@ -24,10 +24,10 @@ app.use(
     keys: [keys.cookieKey]
   })
 ); // adds cookie data to req.session so passport can use it
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(cors());
 app.use(fileUpload());
+app.use(passport.initialize());
+app.use(passport.session());
 
 require("./routes/authRoutes")(app);
 require("./routes/billingRoutes")(app);
