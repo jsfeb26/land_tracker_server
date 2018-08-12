@@ -40,6 +40,9 @@ const organizationSchema = new Schema({
 organizationSchema.virtual("userCount").get(function() {
   return this.users.length;
 });
+organizationSchema.virtual("parcelCount").get(function() {
+  return this.parcels.length;
+});
 
 // creates Organizations Model Class
 mongoose.model("organizations", organizationSchema);
