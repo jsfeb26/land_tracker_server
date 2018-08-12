@@ -5,6 +5,7 @@ import * as actions from "../actions";
 
 import Header from "./Header";
 import Landing from "./Landing";
+import BulkParcelUpload from "./BulkParcelUpload";
 
 const Dashboard = () => <h2>Dashboard</h2>;
 const NewMailing = () => <h2>New Mailing</h2>;
@@ -23,6 +24,7 @@ class App extends Component {
             <Route exact path="/" component={Landing} />
             <Route exact path="/mailings" component={Dashboard} />
             <Route path="/mailings/new" component={NewMailing} />
+            <Route path="/parcel/upload" component={BulkParcelUpload} />
           </div>
         </BrowserRouter>
       </div>

@@ -13,3 +13,9 @@ export const handleToken = token => async dispatch => {
 
   dispatch({ type: FETCH_USER, payload: res.data });
 };
+
+export const onFileUpload = data => async dispatch => {
+  const res = await axios.post("/api/parcels", data);
+
+  dispatch({ type: FETCH_USER, payload: res.data });
+};
