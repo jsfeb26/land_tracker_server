@@ -13,7 +13,12 @@ class Organization extends Component {
       case false:
         return <div>Login</div>;
       default:
-        return <NewOrganizationForm createNewOrganization={this.props.createNewOrganization} />;
+        return (
+          <NewOrganizationForm
+            createNewOrganization={this.props.createNewOrganization}
+            createOrg={this.props.createOrg}
+          />
+        );
     }
   }
 
@@ -22,8 +27,8 @@ class Organization extends Component {
   }
 }
 
-function mapStateToProps({ auth, org }) {
-  return { auth, org };
+function mapStateToProps({ auth, createOrg }) {
+  return { auth, createOrg };
 }
 
 export default connect(
