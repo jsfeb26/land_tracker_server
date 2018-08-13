@@ -5,6 +5,7 @@ import * as actions from "../actions";
 
 import Header from "./Header";
 import Landing from "./Landing";
+import Organization from "./Organization";
 import BulkParcelUpload from "./BulkParcelUpload";
 
 const Dashboard = () => <h2>Dashboard</h2>;
@@ -20,9 +21,12 @@ class App extends Component {
         <BrowserRouter>
           <div className="container">
             <Header />
-            <Route exact path="/" component={Landing} />
-            <Route exact path="/dashboard" component={Dashboard} />
-            <Route path="/parcel/upload" component={BulkParcelUpload} />
+            <div style={{ marginTop: "20px" }}>
+              <Route exact path="/" component={Landing} />
+              <Route path="/dashboard" component={Dashboard} />
+              <Route path="/organization" component={Organization} />
+              <Route path="/parcel/upload" component={BulkParcelUpload} />
+            </div>
           </div>
         </BrowserRouter>
       </div>
