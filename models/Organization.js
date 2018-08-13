@@ -14,8 +14,8 @@ const organizationSchema = new Schema({
     }
   },
   zipCode: String,
-  Phone: String,
-  Fax: String,
+  phone: String,
+  fax: String,
   email: String,
   deedTitling: String,
   deedType: String,
