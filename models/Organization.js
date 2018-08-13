@@ -18,7 +18,10 @@ const organizationSchema = new Schema({
   fax: String,
   email: String,
   deedTitling: String,
-  deedType: String,
+  deedType: {
+    type: String,
+    enum: ["Warranty", "Special Warranty", "Quit Claim"]
+  },
   docFee: Number,
   lateFee: Number,
   noteServicingFee: Number,
