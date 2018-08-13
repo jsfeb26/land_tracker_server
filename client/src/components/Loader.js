@@ -1,7 +1,7 @@
 import React from "react";
 
-export default () => (
-  <div className="preloader-wrapper big active">
+export default ({ small }) => (
+  <div className={`preloader-wrapper ${small ? "small" : "big"} active`}>
     <div className="spinner-layer spinner-blue">
       <div className="circle-clipper left">
         <div className="circle" />
