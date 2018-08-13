@@ -19,3 +19,8 @@ export const onFileUpload = data => async dispatch => {
 
   dispatch({ type: FETCH_USER, payload: res.data });
 };
+
+export const createNewOrganization = data => async dispatch => {
+  // const res = await axios.post("/api/organization", data);
+  // dispatch({ type: FETCH_USER, payload: res.data });
+};
