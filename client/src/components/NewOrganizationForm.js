@@ -1,29 +1,31 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
+import { reduxForm, Field } from "redux-form";
 
-export default class NewOrganizationForm extends Component {
-  onSubmit(e) {
-    e.preventDefault();
+import Loader from "./Loader";
 
-    const data = new FormData();
-    // data.append("file", this.uploadInput.files[0]);
-    // data.append("filename", this.fileName.value);
+class NewOrganizationForm extends Component {
+  onSubmit = formProps => {
+    console.log(formProps);
 
-    this.props.createNewOrganization(data);
-  }
+    this.props.createNewOrganization(formProps);
+  };
+
   render() {
+    const { handleSubmit, createOrg } = this.props;
+
     return (
       <div className="row">
-        <form className="col s12" onSubmit={this.onSubmit}>
+        <form className="col s12" onSubmit={handleSubmit(this.onSubmit)}>
           <div className="row">
             <div className="input-field col s12">
-              <input
-                id="companyName"
-                className="validate"
+              <Field
+                name="companyName"
                 type="text"
+                component="input"
+                className="validate"
                 placeholder="Amazon"
-                ref={ref => {
-                  this.companyName = ref;
-                }}
+                autoComplete="none"
+                disabled={createOrg.creating}
               />
               <label className="active" htmlFor="companyName">
                 Company Name
@@ -33,14 +35,12 @@ export default class NewOrganizationForm extends Component {
 
           <div className="row">
             <div className="input-field col s12">
-              <input
-                id="contactName"
+              <Field
+                name="contactName"
+                component="input"
                 className="validate"
                 type="text"
                 placeholder="Jeff Bezos"
-                ref={ref => {
-                  this.contactName = ref;
-                }}
               />
               <label className="active" htmlFor="contactName">
                 Contact Name
@@ -50,14 +50,12 @@ export default class NewOrganizationForm extends Component {
 
           <div className="row">
             <div className="input-field col s12">
-              <input
-                id="address"
+              <Field
+                name="address"
+                component="input"
                 className="validate"
                 type="text"
                 placeholder="410 Terry Ave. N"
-                ref={ref => {
-                  this.address = ref;
-                }}
               />
               <label className="active" htmlFor="address">
                 Address
@@ -67,14 +65,12 @@ export default class NewOrganizationForm extends Component {
 
           <div className="row">
             <div className="input-field col s12">
-              <input
-                id="city"
+              <Field
+                name="city"
+                component="input"
                 className="validate"
                 type="text"
                 placeholder="Seattle"
-                ref={ref => {
-                  this.city = ref;
-                }}
               />
               <label className="active" htmlFor="city">
                 City
@@ -84,14 +80,12 @@ export default class NewOrganizationForm extends Component {
 
           <div className="row">
             <div className="input-field col s12">
-              <input
-                id="state"
+              <Field
+                name="state"
+                component="input"
                 className="validate"
                 type="text"
                 placeholder="WA"
-                ref={ref => {
-                  this.state = ref;
-                }}
               />
               <label className="active" htmlFor="state">
                 State
@@ -101,14 +95,12 @@ export default class NewOrganizationForm extends Component {
 
           <div className="row">
             <div className="input-field col s12">
-              <input
-                id="zip"
+              <Field
+                name="zip"
+                component="input"
                 className="validate"
                 type="text"
                 placeholder="98109"
-                ref={ref => {
-                  this.zip = ref;
-                }}
               />
               <label className="active" htmlFor="zip">
                 Zip
@@ -118,14 +110,12 @@ export default class NewOrganizationForm extends Component {
 
           <div className="row">
             <div className="input-field col s12">
-              <input
-                id="phone"
+              <Field
+                name="phone"
+                component="input"
                 className="validate"
                 type="text"
                 placeholder="1-206-266-1000"
-                ref={ref => {
-                  this.phone = ref;
-                }}
               />
               <label className="active" htmlFor="phone">
                 Phone
@@ -135,14 +125,12 @@ export default class NewOrganizationForm extends Component {
 
           <div className="row">
             <div className="input-field col s12">
-              <input
-                id="fax"
+              <Field
+                name="fax"
+                component="input"
                 className="validate"
                 type="text"
                 placeholder="1-206-266-1000"
-                ref={ref => {
-                  this.fax = ref;
-                }}
               />
               <label className="active" htmlFor="fax">
                 Fax
@@ -152,14 +140,12 @@ export default class NewOrganizationForm extends Component {
 
           <div className="row">
             <div className="input-field col s12">
-              <input
-                id="email"
+              <Field
+                name="email"
+                component="input"
                 className="validate"
                 type="text"
                 placeholder="jeff@amazon.com"
-                ref={ref => {
-                  this.email = ref;
-                }}
               />
               <label className="active" htmlFor="email">
                 Email
@@ -169,14 +155,12 @@ export default class NewOrganizationForm extends Component {
 
           <div className="row">
             <div className="input-field col s12">
-              <input
-                id="deedTitling"
+              <Field
+                name="deedTitling"
+                component="input"
                 className="validate"
                 type="text"
                 placeholder="Warranty"
-                ref={ref => {
-                  this.deedTitling = ref;
-                }}
               />
               <label className="active" htmlFor="deedTitling">
                 Deed Titling
@@ -186,15 +170,11 @@ export default class NewOrganizationForm extends Component {
 
           <div className="row">
             <div className="input-field col s12">
-              <input
-                id="deedType"
-                className="validate"
-                type="text"
-                placeholder="Warranty"
-                ref={ref => {
-                  this.deedType = ref;
-                }}
-              />
+              <Field name="deedType" component="select">
+                <option value="Warranty">Warranty</option>
+                <option value="Special Warranty">Special Warranty</option>
+                <option value="Quit Claim">Quit Claim</option>
+              </Field>
               <label className="active" htmlFor="deedType">
                 Deed Type
               </label>
@@ -203,14 +183,12 @@ export default class NewOrganizationForm extends Component {
 
           <div className="row">
             <div className="input-field col s12">
-              <input
-                id="docFee"
+              <Field
+                name="docFee"
+                component="input"
                 className="validate"
                 type="text"
                 placeholder="295"
-                ref={ref => {
-                  this.docFee = ref;
-                }}
               />
               <label className="active" htmlFor="docFee">
                 Doc Fee ($)
@@ -220,14 +198,12 @@ export default class NewOrganizationForm extends Component {
 
           <div className="row">
             <div className="input-field col s12">
-              <input
-                id="lateFee"
+              <Field
+                name="lateFee"
+                component="input"
                 className="validate"
                 type="text"
                 placeholder="10"
-                ref={ref => {
-                  this.lateFee = ref;
-                }}
               />
               <label className="active" htmlFor="lateFee">
                 Late Fee ($)
@@ -237,14 +213,12 @@ export default class NewOrganizationForm extends Component {
 
           <div className="row">
             <div className="input-field col s12">
-              <input
-                id="noteServicingFee"
+              <Field
+                name="noteServicingFee"
+                component="input"
                 className="validate"
                 type="text"
                 placeholder="10"
-                ref={ref => {
-                  this.noteServicingFee = ref;
-                }}
               />
               <label className="active" htmlFor="noteServicingFee">
                 Note Servicing Fee ($)
@@ -254,14 +228,12 @@ export default class NewOrganizationForm extends Component {
 
           <div className="row">
             <div className="input-field col s12">
-              <input
-                id="gracePeriod"
+              <Field
+                name="gracePeriod"
+                component="input"
                 className="validate"
                 type="text"
                 placeholder="5"
-                ref={ref => {
-                  this.gracePeriod = ref;
-                }}
               />
               <label className="active" htmlFor="gracePeriod">
                 Grace Period (days)
@@ -269,12 +241,25 @@ export default class NewOrganizationForm extends Component {
             </div>
           </div>
 
-          <button className="btn waves-effect waves-light" type="submit" name="action">
-            Create
-            <i className="material-icons right">add_box</i>
+          <button
+            className="btn-large waves-effect waves-light"
+            type="submit"
+            name="action"
+            disabled={createOrg.creating}
+          >
+            {createOrg.creating ? (
+              <Loader small />
+            ) : (
+              <Fragment>
+                Create
+                <i className="material-icons right">add_box</i>
+              </Fragment>
+            )}
           </button>
         </form>
       </div>
     );
   }
 }
+
+export default reduxForm({ form: "organization" })(NewOrganizationForm);
