@@ -6,7 +6,8 @@ const Organization = mongoose.model("organizations");
 module.exports = app => {
   app.post("/api/organization", requireLogin, async (req, res) => {
     const {
-      name,
+      companyName,
+      contactName,
       address,
       city,
       state,
@@ -21,9 +22,11 @@ module.exports = app => {
       noteServicingFee,
       gracePeriod
     } = req.body;
+    const { user } = req;
 
     const newOrganization = new Organization({
-      name,
+      companyName,
+      contactName,
       address,
       city,
       state,
@@ -37,9 +40,17 @@ module.exports = app => {
       lateFee,
       noteServicingFee,
       gracePeriod,
-      users: [req.user]
+      users: [user]
     });
+    user.organizations.push(newOrganization);
 
-    await newOrganization.save();
+    const validationResult = newOrganization.validateSync();
+    if (validationResult) {
+      // TODO: use validationResult.errors to send back more specific errors
+      return res.status(422).send({ error: "Bad data" });
+    }
+
+    await Promise.all([newOrganization.save(), user.save()]);
+    res.send(newOrganization);
   });
 };
