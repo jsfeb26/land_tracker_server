@@ -5,8 +5,6 @@ import Loader from "./Loader";
 
 class NewOrganizationForm extends Component {
   onSubmit = formProps => {
-    console.log(formProps);
-
     this.props.createNewOrganization(formProps);
   };
 
@@ -96,13 +94,13 @@ class NewOrganizationForm extends Component {
           <div className="row">
             <div className="input-field col s12">
               <Field
-                name="zip"
+                name="zipCode"
                 component="input"
                 className="validate"
                 type="text"
                 placeholder="98109"
               />
-              <label className="active" htmlFor="zip">
+              <label className="active" htmlFor="zipCode">
                 Zip
               </label>
             </div>
@@ -170,7 +168,7 @@ class NewOrganizationForm extends Component {
 
           <div className="row">
             <div className="input-field col s12">
-              <Field name="deedType" component="select">
+              <Field name="deedType" component="select" className="browser-default">
                 <option value="Warranty">Warranty</option>
                 <option value="Special Warranty">Special Warranty</option>
                 <option value="Quit Claim">Quit Claim</option>

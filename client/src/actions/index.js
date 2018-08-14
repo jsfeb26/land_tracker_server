@@ -22,8 +22,6 @@ export const onFileUpload = data => async dispatch => {
 
 export const createNewOrganization = data => async dispatch => {
   dispatch({ type: CREATING_ORGANIZATION });
-  // const res = await axios.post("/api/organization", data);
-  setTimeout(() => {
-    dispatch({ type: CREATED_ORGANIZATION });
-  }, 5000);
+  await axios.post("/api/organization", data);
+  dispatch({ type: CREATED_ORGANIZATION });
 };
