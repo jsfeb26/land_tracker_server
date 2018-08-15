@@ -1,10 +1,31 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { reduxForm, Field } from "redux-form";
 import * as actions from "../actions";
+
+import Loader from "./Loader";
+
+// Issue with latest versions of redux-form
+// https://github.com/erikras/redux-form/issues/1989#issuecomment-287552919
+const adaptFileEventToValue = delegate => e => delegate(e.target.files[0]);
+const FileInput = ({
+  input: { value: omitValue, onChange, onBlur, ...inputProps },
+  meta: omitMeta,
+  ...props
+}) => (
+  <input
+    onChange={adaptFileEventToValue(onChange)}
+    onBlur={adaptFileEventToValue(onBlur)}
+    type="file"
+    {...inputProps}
+    {...props}
+  />
+);
 
 // Some resources for doing this
 // https://codeburst.io/asynchronous-file-upload-with-node-and-react-ea2ed47306dd
 // https://medium.com/ecmastack/uploading-files-with-react-js-and-node-js-e7e6b707f4ef
+// https://ashiknesin.com/blog/upload-file-using-axios-and-redux-form/
 
 class BulkParcelUpload extends Component {
   constructor(props) {
@@ -15,49 +36,105 @@ class BulkParcelUpload extends Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  onSubmit(e) {
-    e.preventDefault();
-
-    const data = new FormData();
-    data.append("file", this.uploadInput.files[0]);
-    data.append("filename", this.fileName.value);
-
-    this.props.onFileUpload(data);
+  componentDidMount() {
+    this.props.fetchUserOrgs();
   }
 
+  onSubmit = data => {
+    const formData = new FormData();
+    formData.append("companyId", data.company);
+    formData.append("parcelFile", data.parcelFile[0]);
+
+    this.props.onFileUpload(data);
+  };
+
   render() {
+    const {
+      handleSubmit,
+      org: { fetchingUserOrgs = true, userOrgs = [] }
+    } = this.props;
+
+    if (fetchingUserOrgs) {
+      return <Loader />;
+    }
+
     return (
       <div className="row">
-        <form className="col s12" onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <input
-              className="form-control"
-              ref={ref => {
-                this.uploadInput = ref;
-              }}
-              type="file"
-            />
+        <form className="col s12" onSubmit={handleSubmit(this.onSubmit)}>
+          <div className="row">
+            <div className="input-field col s12">
+              <Field name="company" component="select" className="browser-default">
+                <option value="" disabled>
+                  Choose your company
+                </option>
+                {userOrgs.map(userOrg => (
+                  <option key={userOrg._id} value={userOrg._id}>
+                    {userOrg.companyName}
+                  </option>
+                ))}
+              </Field>
+              <label className="active" htmlFor="company">
+                Company
+              </label>
+            </div>
           </div>
 
-          <div className="form-group">
-            <input
-              className="form-control"
-              ref={ref => {
-                this.fileName = ref;
-              }}
-              type="text"
-              placeholder="Optional name for the file"
-            />
+          <div className="row">
+            <div className="input-field col s12">
+              <Field
+                name="county"
+                component="input"
+                className="validate"
+                type="text"
+                placeholder="Mohave"
+              />
+              <label className="active" htmlFor="county">
+                County Name
+              </label>
+            </div>
           </div>
 
-          <button className="btn btn-success">Upload</button>
+          <div className="row">
+            <div className="input-field col s12">
+              <Field
+                name="countyState"
+                component="input"
+                className="validate"
+                type="text"
+                placeholder="AZ"
+              />
+              <label className="active" htmlFor="countyState">
+                County State
+              </label>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="col s12">
+              <Field name="parcelFile" component={FileInput} />
+              <label className="active" htmlFor="parcelFile">
+                Parcel Excel File
+              </label>
+            </div>
+          </div>
+
+          <button className="btn-large waves-effect waves-light" type="submit" name="action">
+            Upload
+            <i className="material-icons right">cloud_upload</i>
+          </button>
         </form>
       </div>
     );
   }
 }
 
-export default connect(
-  null,
-  actions
-)(BulkParcelUpload);
+function mapStateToProps({ org }) {
+  return { org };
+}
+
+export default reduxForm({ form: "bulkParcelUpload" })(
+  connect(
+    mapStateToProps,
+    actions
+  )(BulkParcelUpload)
+);
