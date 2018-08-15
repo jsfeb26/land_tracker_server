@@ -2,8 +2,15 @@ const mongoose = require("mongoose");
 const requireLogin = require("../middlewares/requireLogin");
 
 const Organization = mongoose.model("organizations");
+const User = mongoose.model("users");
 
 module.exports = app => {
+  app.get("/api/user_organizations", requireLogin, async (req, res) => {
+    const { user } = req;
+    const fullUser = await User.findOne(user).populate("organizations");
+    res.send(fullUser.organizations);
+  });
+
   app.post("/api/organization", requireLogin, async (req, res) => {
     const {
       companyName,
