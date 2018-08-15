@@ -6,5 +6,5 @@ import orgReducer from "./orgReducer";
 export default combineReducers({
   auth: authReducer,
   form: formReducer,
-  createOrg: orgReducer
+  org: orgReducer
 });

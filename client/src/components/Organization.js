@@ -16,7 +16,7 @@ class Organization extends Component {
         return (
           <NewOrganizationForm
             createNewOrganization={this.props.createNewOrganization}
-            createOrg={this.props.createOrg}
+            org={this.props.org}
           />
         );
     }
@@ -27,8 +27,8 @@ class Organization extends Component {
   }
 }
 
-function mapStateToProps({ auth, createOrg }) {
-  return { auth, createOrg };
+function mapStateToProps({ auth, org }) {
+  return { auth, org };
 }
 
 export default connect(

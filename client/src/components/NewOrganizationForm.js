@@ -9,7 +9,7 @@ class NewOrganizationForm extends Component {
   };
 
   render() {
-    const { handleSubmit, createOrg } = this.props;
+    const { handleSubmit, org } = this.props;
 
     return (
       <div className="row">
@@ -23,7 +23,7 @@ class NewOrganizationForm extends Component {
                 className="validate"
                 placeholder="Amazon"
                 autoComplete="none"
-                disabled={createOrg.creating}
+                disabled={org.creating}
               />
               <label className="active" htmlFor="companyName">
                 Company Name
@@ -243,9 +243,9 @@ class NewOrganizationForm extends Component {
             className="btn-large waves-effect waves-light"
             type="submit"
             name="action"
-            disabled={createOrg.creating}
+            disabled={org.creating}
           >
-            {createOrg.creating ? (
+            {org.creating ? (
               <Loader small />
             ) : (
               <Fragment>
@@ -260,4 +260,4 @@ class NewOrganizationForm extends Component {
   }
 }
 
-export default reduxForm({ form: "organization" })(NewOrganizationForm);
+export default reduxForm({ form: "newOrganization" })(NewOrganizationForm);
