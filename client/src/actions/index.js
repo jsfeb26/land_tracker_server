@@ -1,5 +1,11 @@
 import axios from "axios";
-import { FETCH_USER, CREATING_ORGANIZATION, CREATED_ORGANIZATION } from "./types";
+import {
+  FETCH_USER,
+  CREATING_ORGANIZATION,
+  CREATED_ORGANIZATION,
+  FETCHING_USER_ORGS,
+  FETCH_USER_ORGS
+} from "./types";
 
 // redux-thunk catches any functions being returned from action creators
 // it then gives us access to the dispatch function
@@ -24,4 +30,10 @@ export const createNewOrganization = data => async dispatch => {
   dispatch({ type: CREATING_ORGANIZATION });
   await axios.post("/api/organization", data);
   dispatch({ type: CREATED_ORGANIZATION });
+};
+
+export const fetchUserOrgs = () => async dispatch => {
+  dispatch({ type: FETCHING_USER_ORGS });
+  const res = await axios.get("/api/user_orgs");
+  dispatch({ type: FETCH_USER_ORGS, payload: res.data });
 };
