@@ -42,10 +42,12 @@ class BulkParcelUpload extends Component {
 
   onSubmit = data => {
     const formData = new FormData();
-    formData.append("companyId", data.company);
-    formData.append("parcelFile", data.parcelFile[0]);
+    formData.append("organizationId", data.organizationId);
+    formData.append("parcelFile", data.parcelFile);
+    formData.append("countyName", data.countyName);
+    formData.append("countyState", data.countyState);
 
-    this.props.onFileUpload(data);
+    this.props.onFileUpload(formData);
   };
 
   render() {
@@ -63,7 +65,7 @@ class BulkParcelUpload extends Component {
         <form className="col s12" onSubmit={handleSubmit(this.onSubmit)}>
           <div className="row">
             <div className="input-field col s12">
-              <Field name="company" component="select" className="browser-default">
+              <Field name="organizationId" component="select" className="browser-default">
                 <option value="" disabled>
                   Choose your company
                 </option>
@@ -73,7 +75,7 @@ class BulkParcelUpload extends Component {
                   </option>
                 ))}
               </Field>
-              <label className="active" htmlFor="company">
+              <label className="active" htmlFor="organizationId">
                 Company
               </label>
             </div>
@@ -82,13 +84,13 @@ class BulkParcelUpload extends Component {
           <div className="row">
             <div className="input-field col s12">
               <Field
-                name="county"
+                name="countyName"
                 component="input"
                 className="validate"
                 type="text"
                 placeholder="Mohave"
               />
-              <label className="active" htmlFor="county">
+              <label className="active" htmlFor="countyName">
                 County Name
               </label>
             </div>
