@@ -7,8 +7,8 @@ const parcelSchema = new Schema({
   legalDescription: String,
   assessedValue: Number,
   taxesDue: Number,
-  county: String,
-  state: String,
+  countyName: String,
+  countyState: String,
 
   ownerName: { type: String, required: [true, "Owner Name is required"] },
   ownerAddress: { type: String, required: [true, "Owner Address is required"] },

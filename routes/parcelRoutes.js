@@ -40,24 +40,23 @@ module.exports = app => {
   });
 
   app.post("/api/parcels", requireLogin, requireCredits, async (req, res) => {
-    // need to get file data and use type array
-    // https://github.com/SheetJS/js-xlsx#parsing-workbooks
-    // Browser file upload form element
-    const { organizationId, county, state } = req.body;
+    const { organizationId, countyName, countyState } = req.body;
     const organization = await Organization.findById(organizationId);
-    const fileData = get(req, "files.file.data");
+    const parcelFileData = get(req, "files.parcelFile.data");
 
     if (!organization) {
       return res.status(400).send({ error: "No Excel data found" });
-    } else if (!county) {
+    } else if (!countyName) {
       return res.status(400).send({ error: "County is required" });
-    } else if (!state) {
+    } else if (!countyState) {
       return res.status(400).send({ error: "State is required" });
-    } else if (!fileData) {
+    } else if (!parcelFileData) {
       return res.status(400).send({ error: "No Excel data found" });
     }
 
-    const workbook = XLSX.read(fileData, { type: "array" });
+    // need to get file data and use type array
+    // https://github.com/SheetJS/js-xlsx#parsing-workbooks
+    const workbook = XLSX.read(parcelFileData, { type: "array" });
     const sheetName = workbook.SheetNames[0];
     const worksheet = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
 
@@ -67,6 +66,8 @@ module.exports = app => {
     worksheet.forEach(row => {
       let parcel = new Parcel({
         // refNumber: String,
+        countyName,
+        countyState,
         createdBy: req.user,
         organization,
         dateCreated: Date.now()
@@ -78,9 +79,9 @@ module.exports = app => {
 
       // validate record
       newParcels.push(parcel);
+      organization.parcels.push(parcel);
     });
 
-    organization.parcels.concat(newParcels);
     await Promise.all([Parcel.collection.insert(newParcels), organization.save()]);
   });
 };
