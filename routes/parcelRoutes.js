@@ -22,6 +22,14 @@ const fields = [
 ];
 
 module.exports = app => {
+  app.get("/api/parcels", requireLogin, async (req, res) => {
+    const orgId = req.query.orgId;
+    const organization = await Organization.findById(orgId).populate({
+      path: "parcels"
+    });
+    res.send(organization.parcels);
+  });
+
   app.post("/api/parcel", requireLogin, requireCredits, async (req, res) => {
     const { parcelId, parcelSize, organizationId } = req.body;
 
