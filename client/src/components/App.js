@@ -7,6 +7,7 @@ import Header from "./Header";
 import Landing from "./Landing";
 import Organization from "./Organization";
 import BulkParcelUpload from "./BulkParcelUpload";
+import Parcels from "./Parcels";
 
 const Dashboard = () => <h2>Dashboard</h2>;
 
@@ -26,6 +27,7 @@ class App extends Component {
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/organization" component={Organization} />
               <Route path="/parcel/upload" component={BulkParcelUpload} />
+              <Route path="/parcels" component={Parcels} />
             </div>
           </div>
         </BrowserRouter>

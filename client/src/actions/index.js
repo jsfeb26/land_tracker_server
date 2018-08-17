@@ -4,7 +4,9 @@ import {
   CREATING_ORGANIZATION,
   CREATED_ORGANIZATION,
   FETCHING_USER_ORGS,
-  FETCH_USER_ORGS
+  FETCH_USER_ORGS,
+  FETCHING_ORG_PARCELS,
+  FETCH_ORG_PARCELS
 } from "./types";
 
 // redux-thunk catches any functions being returned from action creators
@@ -36,4 +38,10 @@ export const fetchUserOrgs = () => async dispatch => {
   dispatch({ type: FETCHING_USER_ORGS });
   const res = await axios.get("/api/user_organizations");
   dispatch({ type: FETCH_USER_ORGS, payload: res.data });
+};
+
+export const fetchOrgParcels = orgId => async dispatch => {
+  dispatch({ type: FETCHING_ORG_PARCELS });
+  const res = await axios.get("/api/parcels", { params: { orgId } });
+  dispatch({ type: FETCH_ORG_PARCELS, payload: res.data });
 };
