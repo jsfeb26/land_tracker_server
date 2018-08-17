@@ -27,6 +27,7 @@
     "mongoose": "^5.2.7",
     "passport": "^0.4.0",
     "passport-google-oauth20": "^1.0.0",
+    "react-table": "^6.8.6",
     "stripe": "^6.7.0",
     "xlsx": "^0.13.3"
   },
