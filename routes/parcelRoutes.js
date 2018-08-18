@@ -30,6 +30,15 @@ module.exports = app => {
     res.send(organization.parcels);
   });
 
+  app.get("/api/parcels/send/offer", requireLogin, async (req, res) => {
+    const id = req.query.id;
+    const parcel = await Parcel.findById(id);
+    // make request to lob
+
+    // change status of parcel to sent
+    res.send(parcel);
+  });
+
   app.post("/api/parcel", requireLogin, requireCredits, async (req, res) => {
     const { parcelId, parcelSize, organizationId } = req.body;
 
