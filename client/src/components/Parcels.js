@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import ReactTable from "react-table";
 import * as actions from "../actions";
 
 import Loader from "./Loader";
@@ -11,11 +12,38 @@ class Parcels extends Component {
     this.state = {
       orgId: ""
     };
+
+    this.columns = [
+      {
+        Header: "Send",
+        accessor: "_id",
+        Cell: ({ value }) => <button onClick={() => this.onSendClick(value)}>Send</button>
+      },
+      { Header: "Parcel ID", accessor: "parcelId" },
+      { Header: "Parcel Size", accessor: "parcelSize" },
+      { Header: "Legal Description", accessor: "legalDescription" },
+      { Header: "Assessed Value", accessor: "assessedValue" },
+      { Header: "Taxes Due", accessor: "taxesDue" },
+      { Header: "County Name", accessor: "countyName" },
+      { Header: "County State", accessor: "countyState" },
+      { Header: "Owner Name", accessor: "ownerName" },
+      { Header: "Owner Address", accessor: "ownerAddress" },
+      { Header: "Owner City", accessor: "ownerCity" },
+      { Header: "Owner State", accessor: "ownerState" },
+      { Header: "Owner Zip;", accessor: "ownerZip" },
+      { Header: "Offer", accessor: "offer" },
+      { Header: "Date Created", accessor: "dateCreated" }
+    ];
   }
 
   componentDidMount() {
     this.props.fetchUserOrgs();
   }
+
+  onSendClick = id => {
+    console.log(`Sending...${id}`);
+    this.props.sendLetter(id);
+  };
 
   onSelectOrg = e => {
     const orgId = e.target.value;
@@ -32,7 +60,6 @@ class Parcels extends Component {
     } = this.props;
     const { orgId } = this.state;
 
-    console.log(fetchingUserOrgs);
     if (fetchingUserOrgs) {
       return <Loader />;
     }
@@ -59,11 +86,8 @@ class Parcels extends Component {
             Company
           </label>
         </div>
-        <div className="row">
-          {orgParcels.map(orgParcel => (
-            <div>{orgParcel.parcelId}</div>
-          ))}
-        </div>
+
+        {!!orgParcels.length && <ReactTable data={orgParcels} columns={this.columns} />}
       </div>
     );
   }

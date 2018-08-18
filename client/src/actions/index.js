@@ -6,7 +6,9 @@ import {
   FETCHING_USER_ORGS,
   FETCH_USER_ORGS,
   FETCHING_ORG_PARCELS,
-  FETCH_ORG_PARCELS
+  FETCH_ORG_PARCELS,
+  SENDING_LETTER,
+  SENT_LETTER
 } from "./types";
 
 // redux-thunk catches any functions being returned from action creators
@@ -44,4 +46,10 @@ export const fetchOrgParcels = orgId => async dispatch => {
   dispatch({ type: FETCHING_ORG_PARCELS });
   const res = await axios.get("/api/parcels", { params: { orgId } });
   dispatch({ type: FETCH_ORG_PARCELS, payload: res.data });
+};
+
+export const sendLetter = id => async dispatch => {
+  dispatch({ type: SENDING_LETTER, payload: { id } });
+  const res = await axios.get("/api/parcels/send/offer", { params: { id } });
+  dispatch({ type: SENT_LETTER, payload: res.data });
 };
