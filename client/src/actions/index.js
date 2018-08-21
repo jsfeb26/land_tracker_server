@@ -48,8 +48,8 @@ export const fetchOrgParcels = orgId => async dispatch => {
   dispatch({ type: FETCH_ORG_PARCELS, payload: res.data });
 };
 
-export const sendLetter = id => async dispatch => {
-  dispatch({ type: SENDING_LETTER, payload: { id } });
-  const res = await axios.get("/api/parcels/send/offer", { params: { id } });
+export const sendLetter = ({ parcelId, orgId }) => async dispatch => {
+  dispatch({ type: SENDING_LETTER, payload: { parcelId } });
+  const res = await axios.get("/api/parcels/send/offer", { params: { parcelId, orgId } });
   dispatch({ type: SENT_LETTER, payload: res.data });
 };

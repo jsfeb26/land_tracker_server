@@ -19,6 +19,7 @@ class Parcels extends Component {
         accessor: "_id",
         Cell: ({ value }) => <button onClick={() => this.onSendClick(value)}>Send</button>
       },
+      { Header: "Ref Number", accessor: "refNumber" },
       { Header: "Parcel ID", accessor: "parcelId" },
       { Header: "Parcel Size", accessor: "parcelSize" },
       { Header: "Legal Description", accessor: "legalDescription" },
@@ -40,9 +41,9 @@ class Parcels extends Component {
     this.props.fetchUserOrgs();
   }
 
-  onSendClick = id => {
-    console.log(`Sending...${id}`);
-    this.props.sendLetter(id);
+  onSendClick = parcelId => {
+    console.log(`Sending...${parcelId}`);
+    this.props.sendLetter({ parcelId, orgId: this.state.orgId });
   };
 
   onSelectOrg = e => {
