@@ -1,0 +1,226 @@
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=8">
+  <title>Standard Offer Letter</title>
+
+  <style type="text/css">
+    body {
+      width: 8.5in;
+      height: 11in;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 12px;
+    }
+
+    .page {
+      page-break-after: always;
+    }
+
+    .container {
+      position: relative;
+      padding: 3in 0.6in 0.84in;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    .shippingAddressContainer {
+      line-height: 15px;
+    }
+
+    .shippingAddressContainer>p+p {
+      margin-top: 5px;
+    }
+
+    .ownerAddressContainer {
+      margin-top: 5in;
+    }
+
+    .refNumber {
+      position: absolute;
+      top: 0.84in;
+      right: 0.6in;
+    }
+
+    .mainTitle {
+      font-weight: bold;
+      font-size: 18px;
+      line-height: 21px;
+      margin-top: 21px;
+      text-align: center;
+    }
+
+    .parcelInfoContainer {
+      display: -webkit-box;
+      /* OLD - iOS 6-, Safari 3.1-6 */
+      display: -moz-box;
+      /* OLD - Firefox 19- (buggy but mostly works) */
+      display: -ms-flexbox;
+      /* TWEENER - IE 10 */
+      display: -webkit-flex;
+      /* NEW - Chrome */
+      display: flex;
+      -webkit-box-pack: space-around;
+      -moz-box-pack: space-around;
+      -webkit-justify-content: space-around;
+      -ms-flex-pack: space-around;
+      justify-content: space-around;
+      font-weight: bold;
+      line-height: 15px;
+      margin-top: 21px;
+    }
+
+    .parcelField {
+      text-align: center;
+    }
+
+    .parcelFieldTitle {
+      text-decoration: underline;
+      margin-bottom: 2px;
+    }
+
+    .mainBodyContainer {
+      margin-top: 25px;
+    }
+
+    .mainBodyContainer>p+p {
+      margin-top: 10px;
+    }
+
+    .contingencyList {
+      margin: 20px 0;
+      line-height: 18px;
+      padding-left: 25px;
+    }
+
+    .contingencyList>li+li {
+      margin-top: 2px;
+    }
+
+    .sellerInfoContainer {
+      display: -webkit-box;
+      /* OLD - iOS 6-, Safari 3.1-6 */
+      display: -moz-box;
+      /* OLD - Firefox 19- (buggy but mostly works) */
+      display: -ms-flexbox;
+      /* TWEENER - IE 10 */
+      display: -webkit-flex;
+      /* NEW - Chrome */
+      display: flex;
+      -webkit-box-pack: space-between;
+      -moz-box-pack: space-between;
+      -webkit-justify-content: space-between;
+      -ms-flex-pack: space-between;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+
+    .sellerInfo>p+p {
+      margin-top: 15px;
+    }
+
+    .finePrint {
+      font-size: 9px;
+      line-height: 12px;
+      margin-top: 7px;
+    }
+
+    .companyFooterInfo {
+      font-size: 11px;
+      position: absolute;
+      bottom: 0.84in;
+      width: 8.5in;
+      text-align: center;
+    }
+
+    .companyFooterInfo>p+p {
+      margin-top: 5px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page">
+    <div class="container">
+
+      <!-- <div class="shippingAddressContainer">
+        <p>{{companyName}}</p>
+        <p>{{address}}</p>
+        <p>{{city}}, {{state}}, {{zipCode}}</p>
+      </div>
+
+      <div class="shippingAddressContainer ownerAddressContainer">
+        <p>{{ownerName}}</p>
+        <p>{{ownerAddress}}</p>
+        <p>{{ownerCity}}, {{ownerState}}, {{ownerZip}}</p>
+        <p>Ref#: {{refNumber}}</p>
+      </div> -->
+
+      <p class="refNumber">Ref#: {{refNumber}}</p>
+
+      <p class="mainTitle">PURCHASE AGREEMENT - THIS IS AN OFFER FOR YOUR PROPERTY!</p>
+
+      <div class="parcelInfoContainer">
+        <div class="parcelField">
+          <p class="parcelFieldTitle">APN</p>
+          <p>{{parcelId}}</p>
+        </div>
+        <div class="parcelField">
+          <p class="parcelFieldTitle">Acreage</p>
+          <p>{{parcelSize}}</p>
+        </div>
+        <div class="parcelField">
+          <p class="parcelFieldTitle">County</p>
+          <p>{{countyName}}</p>
+        </div>
+      </div>
+
+      <div class="mainBodyContainer">
+        <p>The purchase offer of ${{offer}} will be paid in full at the time of closing, unless otherwise discussed. We will
+          pay the cost of completing the transaction including any outstanding property taxes within reason*.</p>
+        <p>This offer is contingent upon the following terms:</p>
+
+        <ol class="contingencyList">
+          <li>Buyer's confirmation of parcel size and other due diligence.</li>
+          <li>Said property is to be sold free and clear of all encumbrances, with good and marketable title and with full
+            possession to said property available to Buyer at date of closing.</li>
+          <li>Unless otherwise agreed upon, every effort will be made to close this transaction by {{offerEndDate}}
+          </li>
+          <li>This offer shall be rescinded unless accepted by {{offerEndDate}}</li>
+        </ol>
+
+        <p>• Please consider my counter offer: $___________________</p>
+        <p>To accept this offer, you can FAX the signed offer to {{fax}}, EMAIL it directly to me OR MAIL it to the address
+          below -- my email is <b>{{email}}</b>.
+        </p>
+      </div>
+
+      <div class="sellerInfoContainer">
+        <div class="sellerInfo">
+          <p>Owner (print): _____________________________</p>
+          <p>email: _____________________________________</p>
+        </div>
+        <div class="sellerInfo">
+          <p>Owner (sign): _____________________________</p>
+          <p>Ph#: ______________________________________</p>
+        </div>
+      </div>
+
+      <p class="finePrint">* The back tax amounts will be reviewed and approved in writing by buyer. If back tax amounts
+        are not approved by the buyer, this transaction shall be cancelled.</p>
+
+    </div>
+    <div class="companyFooterInfo">
+      <p>{{companyName}} | {{address}} | {{city}}, {{state}}, {{zipCode}} | Phone: {{phone}} | Fax: {{fax}} </p>
+      <p>Website: {{website}} </p>
+    </div>
+
+  </div>
+
+</body>
+
+</html>
