@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+const CountySchema = new Schema({
+  name: { type: String, required: [true, "Name is required"] },
+  lastRefNumber: { type: Number, default: 0 }
+});
+
 const organizationSchema = new Schema({
   companyName: { type: String, required: [true, "Name is required"] },
   contactName: String,
@@ -17,6 +22,7 @@ const organizationSchema = new Schema({
   phone: String,
   fax: String,
   email: String,
+  website: String,
   deedTitling: String,
   deedType: {
     type: String,
@@ -32,6 +38,7 @@ const organizationSchema = new Schema({
       ref: "users"
     }
   ],
+  counties: [CountySchema],
   parcels: [
     {
       type: Schema.Types.ObjectId,
