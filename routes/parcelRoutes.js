@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 const get = require("lodash.get");
 const XLSX = require("xlsx");
+
+const keys = require("../config/keys");
+const Lob = require("lob")(keys.lobSecretKey);
+
 const requireLogin = require("../middlewares/requireLogin");
 const requireCredits = require("../middlewares/requireCredits");
 
@@ -31,9 +35,69 @@ module.exports = app => {
   });
 
   app.get("/api/parcels/send/offer", requireLogin, async (req, res) => {
-    const id = req.query.id;
-    const parcel = await Parcel.findById(id);
-    // make request to lob
+    const parcelId = req.query.parcelId;
+    const orgId = req.query.orgId;
+
+    const organization = await Organization.findById(orgId);
+    const { companyName, address, city, state, zipCode, fax, email, phone, website } = organization;
+
+    // const parcel = await Parcel.findOne({ parcelId, organization });
+    const parcel = await Parcel.findById(parcelId);
+    const {
+      parcelSize,
+      countyName,
+      ownerName,
+      ownerAddress,
+      ownerCity,
+      ownerState,
+      ownerZip,
+      refNumber,
+      offer
+    } = parcel;
+
+    const lobRes = await Lob.letters.create({
+      description: `Offer Letter for ${refNumber}`,
+      to: {
+        name: ownerName,
+        address_line1: ownerAddress,
+        address_city: ownerCity,
+        address_state: ownerState,
+        address_zip: ownerZip,
+        address_country: "US"
+      },
+      from: {
+        name: companyName,
+        address_line1: address,
+        address_city: city,
+        address_state: state,
+        address_zip: zipCode,
+        address_country: "US"
+      },
+      file: keys.lobOfferLetterTemplate,
+      merge_variables: {
+        companyName,
+        address,
+        city,
+        state,
+        zipCode,
+        ownerName,
+        ownerAddress,
+        ownerCity,
+        ownerState,
+        ownerZip,
+        refNumber,
+        parcelId,
+        parcelSize,
+        countyName,
+        offer,
+        offerEndDate: "2018-12-31",
+        fax,
+        email,
+        phone,
+        website
+      },
+      color: false
+    });
 
     // change status of parcel to sent
     res.send(parcel);
@@ -57,8 +121,9 @@ module.exports = app => {
   });
 
   app.post("/api/parcels", requireLogin, requireCredits, async (req, res) => {
-    const { organizationId, countyName, countyState } = req.body;
+    let { organizationId, countyName, countyState } = req.body;
     const organization = await Organization.findById(organizationId);
+
     const parcelFileData = get(req, "files.parcelFile.data");
 
     if (!organization) {
@@ -71,18 +136,21 @@ module.exports = app => {
       return res.status(400).send({ error: "No Excel data found" });
     }
 
+    countyName = countyName.toLowerCase().trim();
+    const county = organization.counties.find(county => county.name === countyName);
+    let lastRefNumber = county ? county.lastRefNumber : 0;
+
     // need to get file data and use type array
     // https://github.com/SheetJS/js-xlsx#parsing-workbooks
     const workbook = XLSX.read(parcelFileData, { type: "array" });
     const sheetName = workbook.SheetNames[0];
     const worksheet = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
-
-    const parcelUploadAttemptCount = worksheet.length;
     const newParcels = [];
 
     worksheet.forEach(row => {
-      let parcel = new Parcel({
-        // refNumber: String,
+      lastRefNumber++;
+      const parcel = new Parcel({
+        refNumber: `${countyName}-${lastRefNumber}`,
         countyName,
         countyState,
         createdBy: req.user,
@@ -98,6 +166,12 @@ module.exports = app => {
       newParcels.push(parcel);
       organization.parcels.push(parcel);
     });
+
+    if (!county) {
+      organization.counties.push({ name: countyName, lastRefNumber });
+    } else {
+      county.lastRefNumber = lastRefNumber;
+    }
 
     await Promise.all([Parcel.collection.insert(newParcels), organization.save()]);
   });
