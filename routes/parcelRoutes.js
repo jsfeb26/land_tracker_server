@@ -55,8 +55,6 @@ module.exports = app => {
       offer
     } = parcel;
 
-    console.log("******************************Parcel****************************", parcel);
-    console.log("*****************************Org****************************", organization);
     const lobRes = await Lob.letters.create({
       description: `Offer Letter for ${refNumber}`,
       to: {
@@ -100,7 +98,6 @@ module.exports = app => {
       },
       color: false
     });
-    console.log("*********************lob res*******************************", lobRes);
 
     // change status of parcel to sent
     res.send(parcel);
