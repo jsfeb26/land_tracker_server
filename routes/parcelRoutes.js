@@ -98,6 +98,7 @@ module.exports = app => {
       },
       color: false
     });
+    console.log("lob res", lobRes);
 
     // change status of parcel to sent
     res.send(parcel);
