@@ -154,6 +154,21 @@ class NewOrganizationForm extends Component {
           <div className="row">
             <div className="input-field col s12">
               <Field
+                name="website"
+                component="input"
+                className="validate"
+                type="text"
+                placeholder="www.amazon.com"
+              />
+              <label className="active" htmlFor="website">
+                Website
+              </label>
+            </div>
+          </div>
+
+          <div className="row">
+            <div className="input-field col s12">
+              <Field
                 name="deedTitling"
                 component="input"
                 className="validate"
