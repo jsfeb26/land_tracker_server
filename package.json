@@ -17,6 +17,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/core": "^1.5.1",
+    "@material-ui/icons": "^2.0.3",
     "body-parser": "^1.18.3",
     "concurrently": "^3.6.1",
     "cookie-session": "^2.0.0-beta.3",
@@ -30,6 +32,7 @@
     "passport-google-oauth20": "^1.0.0",
     "react-table": "^6.8.6",
     "stripe": "^6.7.0",
+    "typeface-roboto": "0.0.54",
     "xlsx": "^0.13.3"
   },
   "devDependencies": {
