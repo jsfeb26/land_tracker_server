@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 import { connect } from "react-redux";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import * as actions from "../actions";
 
 import Header from "./Header";
@@ -18,7 +19,8 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <Fragment>
+        <CssBaseline />
         <BrowserRouter>
           <div className="container">
             <Header />
@@ -31,7 +33,7 @@ class App extends Component {
             </div>
           </div>
         </BrowserRouter>
-      </div>
+      </Fragment>
     );
   }
 }
