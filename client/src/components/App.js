@@ -22,9 +22,9 @@ class App extends Component {
       <Fragment>
         <CssBaseline />
         <BrowserRouter>
-          <div className="container">
+          <div className="container" style={{ backgroundColor: "#f2f2f2", height: "100vh" }}>
             <Header />
-            <div style={{ marginTop: "20px" }}>
+            <div>
               <Route exact path="/" component={Landing} />
               <Route path="/dashboard" component={Dashboard} />
               <Route path="/organization" component={Organization} />
