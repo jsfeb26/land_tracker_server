@@ -1,9 +1,28 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import ReactTable from "react-table";
 import * as actions from "../actions";
 
+import { withStyles } from "@material-ui/core/styles";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import Button from "@material-ui/core/Button";
+
 import Loader from "./Loader";
+
+const styles = theme => ({
+  formControl: {
+    minWidth: 120
+  },
+  select: {
+    width: "380px"
+  },
+  searchButton: {
+    marginLeft: "auto"
+  }
+});
 
 class Parcels extends Component {
   constructor(props) {
@@ -57,7 +76,8 @@ class Parcels extends Component {
 
   render() {
     const {
-      org: { fetchingUserOrgs = true, userOrgs = [], orgParcels = [] }
+      org: { fetchingUserOrgs = true, userOrgs = [], orgParcels = [] },
+      classes
     } = this.props;
     const { orgId } = this.state;
 
@@ -66,30 +86,40 @@ class Parcels extends Component {
     }
 
     return (
-      <div className="row">
-        <div className="row">
-          <select
-            name="organizationId"
-            className="browser-default"
-            onChange={this.onSelectOrg}
-            value={orgId}
-          >
-            <option value="" disabled>
-              Choose your company
-            </option>
-            {userOrgs.map(userOrg => (
-              <option key={userOrg._id} value={userOrg._id}>
-                {userOrg.companyName}
-              </option>
-            ))}
-          </select>
-          <label className="active" htmlFor="organizationId">
-            Company
-          </label>
+      <Fragment>
+        <div className="top-page-menu">
+          <div className="top-page-menu-body">
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="organization">Organization name</InputLabel>
+              <Select
+                className={classes.select}
+                value={orgId}
+                onChange={this.onSelectOrg}
+                inputProps={{
+                  name: "organization",
+                  id: "organization"
+                }}
+              >
+                {userOrgs.map(userOrg => (
+                  <MenuItem key={userOrg._id} value={userOrg._id}>
+                    {userOrg.companyName}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <Button
+              variant="contained"
+              size="large"
+              color="primary"
+              className={classes.searchButton}
+            >
+              Search
+            </Button>
+          </div>
         </div>
 
         {!!orgParcels.length && <ReactTable data={orgParcels} columns={this.columns} />}
-      </div>
+      </Fragment>
     );
   }
 }
@@ -101,4 +131,4 @@ function mapStateToProps({ org }) {
 export default connect(
   mapStateToProps,
   actions
-)(Parcels);
+)(withStyles(styles)(Parcels));
