@@ -164,7 +164,9 @@ class Parcels extends Component {
         </div>
 
         <div className="table-container">
-          {!!orgParcels.length && <ReactTable data={orgParcels} columns={this.columns} />}
+          {!!orgParcels.length && (
+            <ReactTable data={orgParcels} columns={this.columns} className="-highlight" />
+          )}
         </div>
       </div>
     );
