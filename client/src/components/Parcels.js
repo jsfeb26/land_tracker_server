@@ -41,18 +41,18 @@ class Parcels extends Component {
       { Header: "Ref Number", accessor: "refNumber" },
       { Header: "Parcel ID", accessor: "parcelId" },
       { Header: "Parcel Size", accessor: "parcelSize" },
-      { Header: "Legal Description", accessor: "legalDescription" },
-      { Header: "Assessed Value", accessor: "assessedValue" },
-      { Header: "Taxes Due", accessor: "taxesDue" },
-      { Header: "County Name", accessor: "countyName" },
-      { Header: "County State", accessor: "countyState" },
-      { Header: "Owner Name", accessor: "ownerName" },
-      { Header: "Owner Address", accessor: "ownerAddress" },
-      { Header: "Owner City", accessor: "ownerCity" },
-      { Header: "Owner State", accessor: "ownerState" },
-      { Header: "Owner Zip;", accessor: "ownerZip" },
       { Header: "Offer", accessor: "offer" },
-      { Header: "Date Created", accessor: "dateCreated" }
+      { Header: "Taxes Due", accessor: "taxesDue" }
+      // { Header: "Legal Description", accessor: "legalDescription" },
+      // { Header: "Assessed Value", accessor: "assessedValue" },
+      // { Header: "County Name", accessor: "countyName" },
+      // { Header: "County State", accessor: "countyState" },
+      // { Header: "Owner Name", accessor: "ownerName" },
+      // { Header: "Owner Address", accessor: "ownerAddress" },
+      // { Header: "Owner City", accessor: "ownerCity" },
+      // { Header: "Owner State", accessor: "ownerState" },
+      // { Header: "Owner Zip;", accessor: "ownerZip" },
+      // { Header: "Date Created", accessor: "dateCreated" }
     ];
   }
 
@@ -86,7 +86,7 @@ class Parcels extends Component {
     }
 
     return (
-      <Fragment>
+      <div className="page-container">
         <div className="top-page-menu">
           <div className="top-page-menu-body">
             <FormControl className={classes.formControl}>
@@ -118,8 +118,55 @@ class Parcels extends Component {
           </div>
         </div>
 
-        {!!orgParcels.length && <ReactTable data={orgParcels} columns={this.columns} />}
-      </Fragment>
+        <div className="timeline-container">
+          <div className="time-point-container">
+            <div className="time-point-icon-container">
+              <div className="time-point selected" />
+              <div className="time-point-line" />
+            </div>
+            <div className="time-point-text">New properties</div>
+          </div>
+
+          <div className="time-point-container">
+            <div className="time-point-icon-container">
+              <div className="time-point-line" />
+              <div className="time-point" />
+              <div className="time-point-line" />
+            </div>
+            <div className="time-point-text">Due diligence</div>
+          </div>
+
+          <div className="time-point-container">
+            <div className="time-point-icon-container">
+              <div className="time-point-line" />
+              <div className="time-point" />
+              <div className="time-point-line" />
+            </div>
+            <div className="time-point-text">Closing</div>
+          </div>
+
+          <div className="time-point-container">
+            <div className="time-point-icon-container">
+              <div className="time-point-line" />
+              <div className="time-point" />
+              <div className="time-point-line" />
+            </div>
+            <div className="time-point-text">Marketing</div>
+          </div>
+
+          <div className="time-point-container">
+            <div className="time-point-icon-container">
+              <div className="time-point-line" />
+              <div className="time-point" />
+            </div>
+            <div className="time-point-text">Sales</div>
+          </div>
+        </div>
+
+        <div className="table-container">
+          {!!orgParcels.length && <ReactTable data={orgParcels} columns={this.columns} />}
+        </div>
+      </div>
     );
   }
 }

@@ -1,6 +1,13 @@
+.page-container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
 .top-page-menu {
   display: flex;
   background-color: white;
+  box-shadow: 0 2px 4px 0 rgba(218, 218, 218, 0.5);
   justify-content: center;
   width: 100%;
 }
@@ -15,4 +22,66 @@
 .toolbar-body {
   display: flex;
   width: 940px;
+}
+
+.timeline-container {
+  display: flex;
+  height: 90px;
+  width: 940px;
+  padding: 16px 30px;
+  margin-top: 24px;
+  background-color: white;
+  box-shadow: 0 2px 4px 0 rgba(218, 218, 218, 0.5);
+}
+
+.time-point-container {
+  display: flex;
+  flex: 1 1 20%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.time-point-icon-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.time-point-container:first-child .time-point-icon-container {
+  justify-content: flex-end;
+}
+
+.time-point {
+  flex: 0 0 17px;
+  height: 17px;
+  border: 1px solid #f9aa33;
+  border-radius: 50%;
+}
+
+.time-point.selected {
+  background-color: #f9aa33;
+}
+
+.time-point-line {
+  border-bottom: 0.5px solid #f9aa33;
+  height: 0;
+  width: 50%;
+}
+
+.time-point-text {
+  font-size: 14px;
+  letter-spacing: 1.6px;
+  text-align: center;
+  color: #4a6572;
+}
+
+.time-point-container:last-child .time-point-text {
+  padding-left: 25px;
+}
+
+.table-container {
+  background-color: white;
+  width: 940px;
+  margin-top: 56px;
 }
