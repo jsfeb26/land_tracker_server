@@ -106,7 +106,7 @@
   border-bottom: solid 1px rgba(0, 0, 0, 0.05);
 }
 
-.rt-tr:hover {
+.rt-tbody .rt-tr:hover {
   border: 0.5px solid #c2c2c2;
 }
 
