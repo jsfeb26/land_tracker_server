@@ -1,7 +1,7 @@
 import "typeface-roboto";
-// import "materialize-css/dist/css/materialize.min.css";
 import "react-table/react-table.css";
 import "./styles/app.css";
+
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
