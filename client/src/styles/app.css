@@ -1,7 +1,10 @@
 .page-container {
-  display: flex;
   align-items: center;
+  background-color: #f2f2f2;
+  display: flex;
   flex-direction: column;
+  font-family: "Roboto", "Helvetica", "Arial", "sans-serif";
+  min-height: 100vh;
 }
 
 .top-page-menu {
@@ -53,10 +56,16 @@
 }
 
 .time-point {
+  cursor: pointer;
   flex: 0 0 17px;
   height: 17px;
   border: 1px solid #f9aa33;
   border-radius: 50%;
+  transition: all 0.2s ease-in-out;
+}
+
+.time-point:not(.selected):hover {
+  transform: scale(1.2);
 }
 
 .time-point.selected {
@@ -83,19 +92,35 @@
 .table-container {
   background-color: white;
   width: 940px;
-  margin-top: 56px;
+  margin: 56px 0 112px;
 }
 
 /* React Table Styling */
-.rt-tr-group {
+.rt-tr-group,
+.rt-thead {
   height: 50px;
 }
 
-.rt-td {
-  display: flex;
+.rt-thead {
+  box-shadow: none !important;
+  border-bottom: solid 1px rgba(0, 0, 0, 0.05);
+}
+
+.rt-tr:hover {
+  border: 0.5px solid #c2c2c2;
+}
+
+.rt-td,
+.rt-th {
   align-items: center;
-  justify-content: center;
+  border-right: none !important;
+  color: #4a6572;
+  display: flex;
   font-size: 12px;
+  justify-content: center;
   letter-spacing: 1.4px;
-  color: #d7d7d7;
+}
+
+.rt-th {
+  font-size: 13px;
 }

@@ -34,11 +34,29 @@ const theme = createMuiTheme({
         color: "white",
         letterSpacing: "1.5px",
         fontSize: "13px",
-        textTransform: "capitalize"
+        textTransform: "capitalize",
+        transition: "all .2s ease-in-out",
+        "&:hover": {
+          transform: "scale(1.1)"
+        }
       },
       containedPrimary: {
         background: "linear-gradient(264deg, #fdd562, #f9aa33)",
         boxShadow: "none"
+      },
+      containedSecondary: {
+        backgroundColor: "#4a6572",
+        boxShadow: "none",
+        "&:hover": {
+          backgroundColor: "#4a6572"
+        }
+      }
+    },
+    MuiSelect: {
+      select: {
+        "&:focus": {
+          background: "none"
+        }
       }
     }
   }

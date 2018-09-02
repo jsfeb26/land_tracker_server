@@ -34,9 +34,17 @@ class Parcels extends Component {
 
     this.columns = [
       {
-        Header: "Send",
         accessor: "_id",
-        Cell: ({ value }) => <button onClick={() => this.onSendClick(value)}>Send</button>
+        Cell: ({ value }) => (
+          <Button
+            variant="contained"
+            size="small"
+            color="secondary"
+            onClick={() => this.onSendClick(value)}
+          >
+            Send
+          </Button>
+        )
       },
       { Header: "Ref Number", accessor: "refNumber" },
       { Header: "Parcel ID", accessor: "parcelId" },
