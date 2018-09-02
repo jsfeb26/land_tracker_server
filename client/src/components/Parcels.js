@@ -1,30 +1,12 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 
-import ParcelTable from "./ParcelTable";
+import ParcelTopPageMenu from "./ParcelTopPageMenu";
 import ParcelTimeline from "./ParcelTimeline";
-
-import { withStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import Button from "@material-ui/core/Button";
+import ParcelTable from "./ParcelTable";
 
 import Loader from "./Loader";
-
-const styles = theme => ({
-  formControl: {
-    minWidth: 120
-  },
-  select: {
-    width: "380px"
-  },
-  searchButton: {
-    marginLeft: "auto"
-  }
-});
 
 class Parcels extends Component {
   constructor(props) {
@@ -59,8 +41,7 @@ class Parcels extends Component {
 
   render() {
     const {
-      org: { fetchingUserOrgs = true, userOrgs = [], orgParcels = [] },
-      classes
+      org: { fetchingUserOrgs = true, userOrgs = [], orgParcels = [] }
     } = this.props;
     const { orgId } = this.state;
 
@@ -70,38 +51,12 @@ class Parcels extends Component {
 
     return (
       <div className="page-container">
-        <div className="top-page-menu">
-          <div className="top-page-menu-body">
-            <FormControl className={classes.formControl}>
-              <InputLabel htmlFor="organization">Organization name</InputLabel>
-              <Select
-                className={classes.select}
-                value={orgId}
-                onChange={this.onSelectOrg}
-                inputProps={{
-                  name: "organization",
-                  id: "organization"
-                }}
-              >
-                {userOrgs.map(userOrg => (
-                  <MenuItem key={userOrg._id} value={userOrg._id}>
-                    {userOrg.companyName}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <Button
-              className={classes.searchButton}
-              color="primary"
-              disabled={!this.state.orgId}
-              onClick={this.onSearchClick}
-              size="large"
-              variant="contained"
-            >
-              Search
-            </Button>
-          </div>
-        </div>
+        <ParcelTopPageMenu
+          onSearchClick={this.onSearchClick}
+          orgId={orgId}
+          onSelectOrg={this.onSelectOrg}
+          userOrgs={userOrgs}
+        />
 
         <ParcelTimeline />
 
@@ -118,4 +73,4 @@ function mapStateToProps({ org }) {
 export default connect(
   mapStateToProps,
   actions
-)(withStyles(styles)(Parcels));
+)(Parcels);
