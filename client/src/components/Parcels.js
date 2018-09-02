@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import ReactTable from "react-table";
 import * as actions from "../actions";
+
+import ParcelTable from "./ParcelTable";
 
 import { withStyles } from "@material-ui/core/styles";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -31,37 +32,6 @@ class Parcels extends Component {
     this.state = {
       orgId: ""
     };
-
-    this.columns = [
-      {
-        accessor: "_id",
-        Cell: ({ value }) => (
-          <Button
-            variant="contained"
-            size="small"
-            color="secondary"
-            onClick={() => this.onSendClick(value)}
-          >
-            Send
-          </Button>
-        )
-      },
-      { Header: "Ref Number", accessor: "refNumber" },
-      { Header: "Parcel ID", accessor: "parcelId" },
-      { Header: "Parcel Size", accessor: "parcelSize" },
-      { Header: "Offer", accessor: "offer" },
-      { Header: "Taxes Due", accessor: "taxesDue" }
-      // { Header: "Legal Description", accessor: "legalDescription" },
-      // { Header: "Assessed Value", accessor: "assessedValue" },
-      // { Header: "County Name", accessor: "countyName" },
-      // { Header: "County State", accessor: "countyState" },
-      // { Header: "Owner Name", accessor: "ownerName" },
-      // { Header: "Owner Address", accessor: "ownerAddress" },
-      // { Header: "Owner City", accessor: "ownerCity" },
-      // { Header: "Owner State", accessor: "ownerState" },
-      // { Header: "Owner Zip;", accessor: "ownerZip" },
-      // { Header: "Date Created", accessor: "dateCreated" }
-    ];
   }
 
   componentDidMount() {
@@ -177,11 +147,7 @@ class Parcels extends Component {
           </div>
         </div>
 
-        <div className="table-container">
-          {!!orgParcels.length && (
-            <ReactTable data={orgParcels} columns={this.columns} className="-highlight" />
-          )}
-        </div>
+        <ParcelTable orgParcels={orgParcels} onSendClick={this.onSendClick} />
       </div>
     );
   }
