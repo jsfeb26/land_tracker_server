@@ -37,7 +37,9 @@ class Header extends Component {
   DashboardLink = props => {
     return <Link to={"/dashboard"} {...props} />;
   };
-  LogoIcon = props => <img src="https://image.flaticon.com/icons/svg/888/888568.svg" />;
+  LogoIcon = props => (
+    <img alt="LandTrackr" src="https://image.flaticon.com/icons/svg/888/888568.svg" />
+  );
   renderContent() {
     switch (this.props.auth) {
       case null:
