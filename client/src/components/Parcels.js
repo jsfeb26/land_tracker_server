@@ -76,8 +76,12 @@ class Parcels extends Component {
   onSelectOrg = e => {
     const orgId = e.target.value;
     this.setState({ orgId });
+  };
 
-    if (orgId) {
+  onSearchClick = () => {
+    const orgId = this.state.orgId;
+
+    if (this.state.orgId) {
       this.props.fetchOrgParcels(orgId);
     }
   };
@@ -116,10 +120,12 @@ class Parcels extends Component {
               </Select>
             </FormControl>
             <Button
-              variant="contained"
-              size="large"
-              color="primary"
               className={classes.searchButton}
+              color="primary"
+              disabled={!this.state.orgId}
+              onClick={this.onSearchClick}
+              size="large"
+              variant="contained"
             >
               Search
             </Button>
