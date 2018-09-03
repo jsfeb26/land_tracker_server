@@ -1,12 +1,32 @@
-import { SENDING_LETTER, SENT_LETTER, FETCH_ORG_PARCELS } from "../actions/types";
 import get from "lodash.get";
+
+import { SENDING_LETTER, SENT_LETTER, FETCH_ORG_PARCELS } from "../actions/types";
 
 export default function(state = { orgParcels: [], sendingParcels: {} }, action) {
   const id = get(action, "payload.id");
 
   switch (action.type) {
     case FETCH_ORG_PARCELS:
-      return { ...state, ...{ orgParcels: action.payload } };
+      const parcels = action.payload;
+      parcels.sort((a, b) => {
+        const aRef = parseInt(a.refNumber.split("-")[1], 10);
+        const bRef = parseInt(b.refNumber.split("-")[1], 10);
+
+        if (a.status === "Open" && b.status === "Open") {
+          return aRef - bRef;
+        }
+
+        if (a.status === "Open") {
+          return -1;
+        }
+
+        if (b.status === "Open") {
+          return 1;
+        }
+
+        return aRef - bRef;
+      });
+      return { ...state, ...{ orgParcels: parcels } };
 
     case SENDING_LETTER:
       return {
