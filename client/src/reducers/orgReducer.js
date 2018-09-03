@@ -2,9 +2,7 @@ import {
   CREATING_ORGANIZATION,
   CREATED_ORGANIZATION,
   FETCHING_USER_ORGS,
-  FETCH_USER_ORGS,
-  FETCHING_ORG_PARCELS,
-  FETCH_ORG_PARCELS
+  FETCH_USER_ORGS
 } from "../actions/types";
 
 export default function(state = {}, action) {
@@ -17,8 +15,6 @@ export default function(state = {}, action) {
       return { ...state, fetchingUserOrgs: true };
     case FETCH_USER_ORGS:
       return { ...state, fetchingUserOrgs: false, userOrgs: action.payload };
-    case FETCH_ORG_PARCELS:
-      return { ...state, orgParcels: action.payload };
     default:
       return state;
   }
