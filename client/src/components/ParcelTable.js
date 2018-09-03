@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ReactTable from "react-table";
+import get from "lodash.get";
 
 import Button from "@material-ui/core/Button";
 
@@ -8,19 +9,33 @@ export default class ParcelTable extends Component {
     super(props);
 
     this.columns = [
+      { Header: "Id", accessor: "_id", show: false },
+
       {
-        accessor: "_id",
-        Cell: ({ value }) => (
-          <Button
-            variant="contained"
-            size="small"
-            color="secondary"
-            onClick={() => this.props.onSendClick(value)}
-          >
-            Send
-          </Button>
-        )
+        Header: "Status",
+        accessor: "status",
+        Cell: ({ value: status, ...row }) => {
+          const data = get(row, "row");
+          const id = data._id;
+          const stage = data.stage;
+
+          if (stage !== "New" || (stage === "New" && status !== "Open")) {
+            return status;
+          }
+
+          return (
+            <Button
+              variant="contained"
+              size="small"
+              color="secondary"
+              onClick={() => this.props.onSendClick(id)}
+            >
+              {this.props.sendingParcels[id] ? "Loading..." : "Send"}
+            </Button>
+          );
+        }
       },
+      { Header: "Stage", accessor: "stage" },
       { Header: "Ref Number", accessor: "refNumber" },
       { Header: "Parcel ID", accessor: "parcelId" },
       { Header: "Parcel Size", accessor: "parcelSize" },

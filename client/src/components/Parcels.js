@@ -21,9 +21,8 @@ class Parcels extends Component {
     this.props.fetchUserOrgs();
   }
 
-  onSendClick = parcelId => {
-    console.log(`Sending...${parcelId}`);
-    this.props.sendLetter({ parcelId, orgId: this.state.orgId });
+  onSendClick = id => {
+    this.props.sendLetter({ id, orgId: this.state.orgId });
   };
 
   onSelectOrg = e => {
@@ -41,7 +40,8 @@ class Parcels extends Component {
 
   render() {
     const {
-      org: { fetchingUserOrgs = true, userOrgs = [], orgParcels = [] }
+      org: { fetchingUserOrgs = true, userOrgs = [] },
+      parcel: { orgParcels = [], sendingParcels = {} }
     } = this.props;
     const { orgId } = this.state;
 
@@ -60,14 +60,18 @@ class Parcels extends Component {
 
         <ParcelTimeline />
 
-        <ParcelTable orgParcels={orgParcels} onSendClick={this.onSendClick} />
+        <ParcelTable
+          orgParcels={orgParcels}
+          onSendClick={this.onSendClick}
+          sendingParcels={sendingParcels}
+        />
       </div>
     );
   }
 }
 
-function mapStateToProps({ org }) {
-  return { org };
+function mapStateToProps({ org, parcel }) {
+  return { org, parcel };
 }
 
 export default connect(
