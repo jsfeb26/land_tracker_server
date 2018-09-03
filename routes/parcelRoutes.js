@@ -34,16 +34,16 @@ module.exports = app => {
     res.send(organization.parcels);
   });
 
-  app.get("/api/parcels/send/offer", requireLogin, async (req, res) => {
-    const parcelId = req.query.parcelId;
-    const orgId = req.query.orgId;
+  app.put("/api/parcels/send/offer", requireLogin, async (req, res) => {
+    const { id, orgId } = req.body;
 
     const organization = await Organization.findById(orgId);
     const { companyName, address, city, state, zipCode, fax, email, phone, website } = organization;
 
-    // const parcel = await Parcel.findOne({ parcelId, organization });
-    const parcel = await Parcel.findById(parcelId);
+    // const parcel = await Parcel.findOne({ id, organization });
+    const parcel = await Parcel.findById(id);
     const {
+      parcelId,
       parcelSize,
       countyName,
       ownerName,
@@ -55,52 +55,72 @@ module.exports = app => {
       offer
     } = parcel;
 
-    const lobRes = await Lob.letters.create({
-      description: `Offer Letter for ${refNumber}`,
-      to: {
-        name: ownerName,
-        address_line1: ownerAddress,
-        address_city: ownerCity,
-        address_state: ownerState,
-        address_zip: ownerZip,
-        address_country: "US"
-      },
-      from: {
-        name: companyName,
-        address_line1: address,
-        address_city: city,
-        address_state: state,
-        address_zip: zipCode,
-        address_country: "US"
-      },
-      file: keys.lobOfferLetterTemplate,
-      merge_variables: {
-        companyName,
-        address,
-        city,
-        state,
-        zipCode,
-        ownerName,
-        ownerAddress,
-        ownerCity,
-        ownerState,
-        ownerZip,
-        refNumber,
-        parcelId,
-        parcelSize,
-        countyName,
-        offer,
-        offerEndDate: "2018-12-31",
-        fax,
-        email,
-        phone,
-        website
-      },
-      color: false
-    });
+    let status = "New";
+    let isError = false;
+    try {
+      const lobRes = await Lob.letters.create({
+        description: `Offer Letter for ${refNumber}`,
+        to: {
+          name: ownerName,
+          address_line1: ownerAddress,
+          address_city: ownerCity,
+          address_state: ownerState,
+          address_zip: ownerZip,
+          address_country: "US"
+        },
+        from: {
+          name: companyName,
+          address_line1: address,
+          address_city: city,
+          address_state: state,
+          address_zip: zipCode,
+          address_country: "US"
+        },
+        file: keys.lobOfferLetterTemplate,
+        merge_variables: {
+          companyName,
+          address,
+          city,
+          state,
+          zipCode,
+          ownerName,
+          ownerAddress,
+          ownerCity,
+          ownerState,
+          ownerZip,
+          refNumber,
+          parcelId,
+          parcelSize,
+          countyName,
+          offer,
+          offerEndDate: "2018-12-31",
+          fax,
+          email,
+          phone,
+          website
+        },
+        color: false
+      });
 
-    // change status of parcel to sent
-    res.send(parcel);
+      if (lobRes) {
+        status = "Sent";
+      }
+    } catch (e) {
+      isError = true;
+
+      const statusCode = e.status_code;
+      if (statusCode === 422) {
+        status = "Undeliverable";
+      }
+    } finally {
+      parcel.status = status;
+      await parcel.save();
+
+      if (isError) {
+        return res.status(422).send(parcel);
+      }
+      res.send(parcel);
+    }
   });
 
   app.post("/api/parcel", requireLogin, requireCredits, async (req, res) => {
@@ -154,8 +174,7 @@ module.exports = app => {
         countyName,
         countyState,
         createdBy: req.user,
-        organization,
-        dateCreated: Date.now()
+        organization
       });
 
       fields.forEach(field => {

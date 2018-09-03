@@ -21,7 +21,18 @@ const parcelSchema = new Schema({
 
   createdBy: { type: Schema.Types.ObjectId, ref: "users" },
   organization: { type: Schema.Types.ObjectId, ref: "organizations" },
-  dateCreated: Date
+  dateCreated: { type: Date, default: Date.now },
+
+  status: {
+    type: String,
+    enum: ["Open", "Sent", "Done", "Response Received", "Active", "Undeliverable"],
+    default: "Open"
+  },
+  stage: {
+    type: String,
+    enum: ["New", "Due Diligence", "Closing", "Marketing", "Sold"],
+    default: "New"
+  }
 });
 
 // creates Parcels Model Class
