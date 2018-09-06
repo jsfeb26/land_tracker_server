@@ -1,53 +1,39 @@
 import React from "react";
+import classnames from "classnames";
 
-export default ({ small }) => (
-  <div className={`preloader-wrapper ${small ? "small" : "big"} active`}>
-    <div className="spinner-layer spinner-blue">
-      <div className="circle-clipper left">
-        <div className="circle" />
-      </div>
-      <div className="gap-patch">
-        <div className="circle" />
-      </div>
-      <div className="circle-clipper right">
-        <div className="circle" />
-      </div>
-    </div>
+import { withStyles } from "@material-ui/core/styles";
+import { CircularProgress, LinearProgress } from "@material-ui/core";
 
-    <div className="spinner-layer spinner-red">
-      <div className="circle-clipper left">
-        <div className="circle" />
-      </div>
-      <div className="gap-patch">
-        <div className="circle" />
-      </div>
-      <div className="circle-clipper right">
-        <div className="circle" />
-      </div>
-    </div>
+const styles = {
+  container: {
+    display: "flex",
+    height: "100%",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  fullPage: {
+    height: "200px"
+  },
+  progress: {
+    width: "100%"
+  }
+};
 
-    <div className="spinner-layer spinner-yellow">
-      <div className="circle-clipper left">
-        <div className="circle" />
-      </div>
-      <div className="gap-patch">
-        <div className="circle" />
-      </div>
-      <div className="circle-clipper right">
-        <div className="circle" />
-      </div>
-    </div>
-
-    <div className="spinner-layer spinner-green">
-      <div className="circle-clipper left">
-        <div className="circle" />
-      </div>
-      <div className="gap-patch">
-        <div className="circle" />
-      </div>
-      <div className="circle-clipper right">
-        <div className="circle" />
-      </div>
-    </div>
+export const Linear = withStyles(styles)(({ classes }) => (
+  <div className={classes.container}>
+    <LinearProgress color="secondary" className={classes.progress} />
   </div>
-);
+));
+
+export const Circular = withStyles(styles)(({ classes, fullPage, large, small }) => {
+  let size = 40;
+  if (large) size = 100;
+  if (small) size = 20;
+
+  return (
+    <div className={classnames(classes.container, { [classes.fullPage]: fullPage })}>
+      <CircularProgress color="secondary" size={size} className={classes.progress} />
+    </div>
+  );
+});
