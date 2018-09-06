@@ -15,10 +15,13 @@ import reducers from "./reducers";
 const theme = createMuiTheme({
   palette: {
     primary: {
+      // blue color
       main: "#4a6572"
     },
     secondary: {
-      main: "#0044ff"
+      // organge
+      main: "#f9aa33",
+      contrastText: "#fff"
     }
   },
   typography: {
