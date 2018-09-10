@@ -1,15 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import Loader from "./Loader";
+import { Circular } from "./Loader";
 import NewOrganizationForm from "./NewOrganizationForm";
+
 import * as actions from "../actions";
 
 class Organization extends Component {
   renderContent() {
     switch (this.props.auth) {
       case null:
-        return <Loader />;
+        return <Circular fullPage />;
       case false:
         return <div>Login</div>;
       default:

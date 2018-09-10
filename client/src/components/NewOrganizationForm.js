@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { reduxForm, Field } from "redux-form";
 
-import Loader from "./Loader";
+import { Linear } from "./Loader";
 
 class NewOrganizationForm extends Component {
   onSubmit = formProps => {
@@ -261,7 +261,7 @@ class NewOrganizationForm extends Component {
             disabled={org.creating}
           >
             {org.creating ? (
-              <Loader small />
+              <Linear />
             ) : (
               <Fragment>
                 Create

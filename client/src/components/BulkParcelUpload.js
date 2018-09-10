@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
 import * as actions from "../actions";
 
-import Loader from "./Loader";
+import { Circular } from "./Loader";
 
 // Issue with latest versions of redux-form
 // https://github.com/erikras/redux-form/issues/1989#issuecomment-287552919
@@ -57,7 +57,7 @@ class BulkParcelUpload extends Component {
     } = this.props;
 
     if (fetchingUserOrgs) {
-      return <Loader />;
+      return <Circular fullPage />;
     }
 
     return (

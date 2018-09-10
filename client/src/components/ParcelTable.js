@@ -4,6 +4,8 @@ import get from "lodash.get";
 
 import Button from "@material-ui/core/Button";
 
+import { Linear } from "./Loader";
+
 export default class ParcelTable extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +25,10 @@ export default class ParcelTable extends Component {
             return status;
           }
 
+          if (this.props.sendingParcels[id]) {
+            return <Linear />;
+          }
+
           return (
             <Button
               variant="contained"
@@ -30,7 +36,7 @@ export default class ParcelTable extends Component {
               color="secondary"
               onClick={() => this.props.onSendClick(id)}
             >
-              {this.props.sendingParcels[id] ? "Loading..." : "Send"}
+              Send
             </Button>
           );
         }

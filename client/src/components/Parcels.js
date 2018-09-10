@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 
@@ -6,7 +6,7 @@ import ParcelTopPageMenu from "./ParcelTopPageMenu";
 import ParcelTimeline from "./ParcelTimeline";
 import ParcelTable from "./ParcelTable";
 
-import Loader from "./Loader";
+import { Circular } from "./Loader";
 
 class Parcels extends Component {
   constructor(props) {
@@ -46,11 +46,11 @@ class Parcels extends Component {
     const { orgId } = this.state;
 
     if (fetchingUserOrgs) {
-      return <Loader />;
+      return <Circular fullPage />;
     }
 
     return (
-      <div className="page-container">
+      <Fragment>
         <ParcelTopPageMenu
           onSearchClick={this.onSearchClick}
           orgId={orgId}
@@ -65,7 +65,7 @@ class Parcels extends Component {
           onSendClick={this.onSendClick}
           sendingParcels={sendingParcels}
         />
-      </div>
+      </Fragment>
     );
   }
 }
