@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import ReactTable from "react-table";
 import get from "lodash.get";
 
-import Button from "@material-ui/core/Button";
+import { Button } from "@material-ui/core";
 
 import { Linear } from "./Loader";
 
