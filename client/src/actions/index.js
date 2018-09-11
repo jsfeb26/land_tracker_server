@@ -56,5 +56,6 @@ export const sendLetter = ({ id, orgId }) => async dispatch => {
     dispatch({ type: SENT_LETTER, payload: { id, data: res.data } });
   } catch (e) {
     dispatch({ type: SENT_LETTER, payload: { id, data: e.response.data } });
+    // TODO: handle all error codes from Lob https://lob.com/docs/node#errors
   }
 };

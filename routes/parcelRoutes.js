@@ -55,8 +55,6 @@ module.exports = app => {
       offer
     } = parcel;
 
-    let status = "New";
-    let isError = false;
     try {
       const lobRes = await Lob.letters.create({
         description: `Offer Letter for ${refNumber}`,
@@ -103,23 +101,20 @@ module.exports = app => {
       });
 
       if (lobRes) {
-        status = "Sent";
+        parcel.status = "Sent";
+        await parcel.save();
+
+        res.send(parcel);
       }
     } catch (e) {
-      isError = true;
-
       const statusCode = e.status_code;
-      if (statusCode === 422) {
-        status = "Undeliverable";
-      }
-    } finally {
-      parcel.status = status;
-      await parcel.save();
 
-      if (isError) {
-        return res.status(422).send(parcel);
+      if (statusCode === 422) {
+        parcel.status = "Undeliverable";
+        await parcel.save();
       }
-      res.send(parcel);
+
+      return res.status(statusCode).send(parcel);
     }
   });
 
@@ -181,7 +176,7 @@ module.exports = app => {
         parcel[field.name] = row[field.match];
       });
 
-      // validate record
+      // TODO: validate record
       newParcels.push(parcel);
       organization.parcels.push(parcel);
     });
