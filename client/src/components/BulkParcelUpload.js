@@ -1,7 +1,15 @@
-import React, { Component } from "react";
+// Some resources for doing this
+// https://codeburst.io/asynchronous-file-upload-with-node-and-react-ea2ed47306dd
+// https://medium.com/ecmastack/uploading-files-with-react-js-and-node-js-e7e6b707f4ef
+// https://ashiknesin.com/blog/upload-file-using-axios-and-redux-form/
+
+import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
 import * as actions from "../actions";
+
+import { withStyles } from "@material-ui/core/styles";
+import { InputLabel, MenuItem, FormControl, Select, TextField, Button } from "@material-ui/core";
 
 import { Circular } from "./Loader";
 
@@ -22,10 +30,26 @@ const FileInput = ({
   />
 );
 
-// Some resources for doing this
-// https://codeburst.io/asynchronous-file-upload-with-node-and-react-ea2ed47306dd
-// https://medium.com/ecmastack/uploading-files-with-react-js-and-node-js-e7e6b707f4ef
-// https://ashiknesin.com/blog/upload-file-using-axios-and-redux-form/
+const styles = theme => ({
+  formControl: {
+    minWidth: 120,
+    marginTop: "8px"
+  },
+  formElement: {
+    width: "380px"
+  },
+  formButton: {
+    marginTop: "16px"
+  }
+});
+
+const renderSelectField = ({ input, children, ...custom }) => (
+  <Select {...input} children={children} {...custom} />
+);
+
+const renderTextField = ({ input, label, ...custom }) => (
+  <TextField label={label} {...input} {...custom} />
+);
 
 class BulkParcelUpload extends Component {
   constructor(props) {
@@ -52,6 +76,7 @@ class BulkParcelUpload extends Component {
 
   render() {
     const {
+      classes,
       handleSubmit,
       org: { fetchingUserOrgs = true, userOrgs = [] }
     } = this.props;
@@ -61,71 +86,56 @@ class BulkParcelUpload extends Component {
     }
 
     return (
-      <div className="row">
+      <Fragment>
         <form className="col s12" onSubmit={handleSubmit(this.onSubmit)}>
-          <div className="row">
-            <div className="input-field col s12">
-              <Field name="organizationId" component="select" className="browser-default">
-                <option value="" disabled>
-                  Choose your company
-                </option>
-                {userOrgs.map(userOrg => (
-                  <option key={userOrg._id} value={userOrg._id}>
-                    {userOrg.companyName}
-                  </option>
-                ))}
-              </Field>
-              <label className="active" htmlFor="organizationId">
-                Company
-              </label>
-            </div>
-          </div>
+          <FormControl className={classes.formControl}>
+            <InputLabel htmlFor="organization">Organization name</InputLabel>
+            <Field
+              name="organizationId"
+              component={renderSelectField}
+              className={classes.formElement}
+            >
+              {userOrgs.map(userOrg => (
+                <MenuItem key={userOrg._id} value={userOrg._id}>
+                  {userOrg.companyName}
+                </MenuItem>
+              ))}
+            </Field>
+          </FormControl>
 
-          <div className="row">
-            <div className="input-field col s12">
-              <Field
-                name="countyName"
-                component="input"
-                className="validate"
-                type="text"
-                placeholder="Mohave"
-              />
-              <label className="active" htmlFor="countyName">
-                County Name
-              </label>
-            </div>
-          </div>
+          <FormControl className={classes.formControl}>
+            <Field
+              name="countyName"
+              component={renderTextField}
+              className={classes.formElement}
+              label="County Name"
+            />
+          </FormControl>
 
-          <div className="row">
-            <div className="input-field col s12">
-              <Field
-                name="countyState"
-                component="input"
-                className="validate"
-                type="text"
-                placeholder="AZ"
-              />
-              <label className="active" htmlFor="countyState">
-                County State
-              </label>
-            </div>
-          </div>
+          <FormControl className={classes.formControl}>
+            <Field
+              name="countyState"
+              component={renderTextField}
+              className={classes.formElement}
+              label="County State"
+            />
+          </FormControl>
 
-          <div className="row">
-            <div className="col s12">
-              <Field name="parcelFile" component={FileInput} />
-              <label className="active" htmlFor="parcelFile">
-                Parcel Excel File
-              </label>
-            </div>
-          </div>
+          <FormControl className={classes.formControl}>
+            <Field name="parcelFile" component={FileInput} />
+          </FormControl>
 
-          <button className="btn-large waves-effect waves-light" type="submit" name="action">
+          <Button
+            className={classes.formButton}
+            color="primary"
+            size="large"
+            type="submit"
+            variant="contained"
+          >
             Upload
-            <i className="material-icons right">cloud_upload</i>
-          </button>
+          </Button>
         </form>
-      </div>
+      </Fragment>
     );
   }
 }
@@ -138,5 +148,5 @@ export default reduxForm({ form: "bulkParcelUpload" })(
   connect(
     mapStateToProps,
     actions
-  )(BulkParcelUpload)
+  )(withStyles(styles)(BulkParcelUpload))
 );

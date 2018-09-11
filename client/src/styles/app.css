@@ -95,6 +95,11 @@
   margin: 56px 0 112px;
 }
 
+form {
+  display: flex;
+  flex-direction: column;
+}
+
 /* React Table Styling */
 .rt-tr-group,
 .rt-thead {
