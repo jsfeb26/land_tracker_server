@@ -92,7 +92,6 @@ module.exports = app => {
           countyName,
           offer,
           offerEndDate: "2018-12-31",
-          fax,
           email,
           phone,
           website
