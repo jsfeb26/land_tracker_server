@@ -18,16 +18,21 @@ import { Circular } from "./Loader";
 const adaptFileEventToValue = delegate => e => delegate(e.target.files[0]);
 const FileInput = ({
   input: { value: omitValue, onChange, onBlur, ...inputProps },
-  meta: omitMeta,
+  meta: { touched, error },
   ...props
 }) => (
-  <input
-    onChange={adaptFileEventToValue(onChange)}
-    onBlur={adaptFileEventToValue(onBlur)}
-    type="file"
-    {...inputProps}
-    {...props}
-  />
+  <Fragment>
+    <InputLabel htmlFor="fileUpload" error={touched && error ? true : false}>
+      Parcel File
+    </InputLabel>
+    <input
+      onChange={adaptFileEventToValue(onChange)}
+      onBlur={adaptFileEventToValue(onBlur)}
+      type="file"
+      {...inputProps}
+      {...props}
+    />
+  </Fragment>
 );
 
 const styles = theme => ({
@@ -43,13 +48,23 @@ const styles = theme => ({
   }
 });
 
-const renderSelectField = ({ input, children, ...custom }) => (
-  <Select {...input} children={children} {...custom} />
+const renderSelectField = ({ input, children, meta: { touched, error }, ...custom }) => (
+  <Fragment>
+    <InputLabel htmlFor="organization" error={touched && error ? true : false}>
+      Organization name
+    </InputLabel>
+    <Select {...input} children={children} error={touched && error ? true : false} {...custom} />
+  </Fragment>
 );
 
-const renderTextField = ({ input, label, ...custom }) => (
-  <TextField label={label} {...input} {...custom} />
+const renderTextField = ({ input, label, meta: { touched, error, warning }, ...custom }) => (
+  <Fragment>
+    <TextField label={label} error={touched && error ? true : false} {...input} {...custom} />
+    {/* {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))} */}
+  </Fragment>
 );
+
+const required = value => (value || typeof value === "number" ? undefined : "Required");
 
 class BulkParcelUpload extends Component {
   constructor(props) {
@@ -89,11 +104,11 @@ class BulkParcelUpload extends Component {
       <Fragment>
         <form className="col s12" onSubmit={handleSubmit(this.onSubmit)}>
           <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="organization">Organization name</InputLabel>
             <Field
               name="organizationId"
               component={renderSelectField}
               className={classes.formElement}
+              validate={[required]}
             >
               {userOrgs.map(userOrg => (
                 <MenuItem key={userOrg._id} value={userOrg._id}>
@@ -109,6 +124,7 @@ class BulkParcelUpload extends Component {
               component={renderTextField}
               className={classes.formElement}
               label="County Name"
+              validate={[required]}
             />
           </FormControl>
 
@@ -118,11 +134,12 @@ class BulkParcelUpload extends Component {
               component={renderTextField}
               className={classes.formElement}
               label="County State"
+              validate={[required]}
             />
           </FormControl>
 
           <FormControl className={classes.formControl}>
-            <Field name="parcelFile" component={FileInput} />
+            <Field name="parcelFile" component={FileInput} validate={[required]} />
           </FormControl>
 
           <Button
