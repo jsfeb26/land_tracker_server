@@ -39,7 +39,18 @@ module.exports = app => {
     const { id, orgId } = req.body;
 
     const organization = await Organization.findById(orgId);
-    const { companyName, address, city, state, zipCode, fax, email, phone, website } = organization;
+    const {
+      companyName,
+      address,
+      address2,
+      city,
+      state,
+      zipCode,
+      fax,
+      email,
+      phone,
+      website
+    } = organization;
 
     // const parcel = await Parcel.findOne({ id, organization });
     const parcel = await Parcel.findById(id);
@@ -58,51 +69,58 @@ module.exports = app => {
     } = parcel;
 
     try {
-      const lobRes = await Lob.letters.create({
-        description: `Offer Letter for ${refNumber}`,
-        to: {
-          name: ownerName,
-          address_line1: ownerAddress,
-          address_line2: ownerAddress2 || null,
-          address_city: ownerCity,
-          address_state: ownerState,
-          address_zip: ownerZip,
-          address_country: "US"
+      const lobRes = await Lob.letters.create(
+        {
+          description: `Offer Letter for ${refNumber}`,
+          to: {
+            name: ownerName,
+            address_line1: ownerAddress,
+            address_line2: ownerAddress2 || null,
+            address_city: ownerCity,
+            address_state: ownerState,
+            address_zip: ownerZip,
+            address_country: "US"
+          },
+          from: {
+            name: companyName,
+            address_line1: address,
+            address_line2: address2 || null,
+            address_city: city,
+            address_state: state,
+            address_zip: zipCode,
+            address_country: "US"
+          },
+          file: keys.lobOfferLetterTemplate,
+          merge_variables: {
+            companyName,
+            address,
+            city,
+            state,
+            zipCode,
+            ownerName,
+            ownerAddress,
+            ownerCity,
+            ownerState,
+            ownerZip,
+            refNumber,
+            parcelId,
+            parcelSize,
+            countyName,
+            offer,
+            offerEndDate: "2018-12-31",
+            email,
+            phone,
+            website
+          },
+          color: false
         },
-        from: {
-          name: companyName,
-          address_line1: address,
-          address_line2: address2 || null,
-          address_city: city,
-          address_state: state,
-          address_zip: zipCode,
-          address_country: "US"
-        },
-        file: keys.lobOfferLetterTemplate,
-        merge_variables: {
-          companyName,
-          address,
-          city,
-          state,
-          zipCode,
-          ownerName,
-          ownerAddress,
-          ownerCity,
-          ownerState,
-          ownerZip,
-          refNumber,
-          parcelId,
-          parcelSize,
-          countyName,
-          offer,
-          offerEndDate: "2018-12-31",
-          email,
-          phone,
-          website
-        },
-        color: false
-      });
+        (err, res) => {
+          console.log("err", err);
+          console.log("res", res);
+        }
+      );
 
+      console.log("lobRes----------------------", lobRes);
       if (lobRes) {
         parcel.status = "Sent";
         await parcel.save();
@@ -110,12 +128,14 @@ module.exports = app => {
         res.send(parcel);
       }
     } catch (e) {
+      console.log("e", e);
       const statusCode = e.status_code;
 
       if (statusCode === 422) {
         parcel.status = "Undeliverable";
         await parcel.save();
       }
+      console.log("status", statusCode);
 
       return res.status(statusCode).send(parcel);
     }
