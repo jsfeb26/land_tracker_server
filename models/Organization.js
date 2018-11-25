@@ -10,6 +10,7 @@ const organizationSchema = new Schema({
   companyName: { type: String, required: [true, "Name is required"] },
   contactName: String,
   address: String,
+  address2: String,
   city: String,
   state: {
     type: String,

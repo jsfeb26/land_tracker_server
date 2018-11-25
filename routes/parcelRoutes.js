@@ -15,6 +15,7 @@ const fields = [
   { name: "parcelId", match: "PARCEL_ID" },
   { name: "ownerName", match: "OWNER_NAME" },
   { name: "ownerAddress", match: "OWNER_ADDRESS" },
+  { name: "ownerAddress2", match: "OWNER_ADDRESS_2" },
   { name: "ownerCity", match: "OWNER_CITY" },
   { name: "ownerState", match: "OWNER_STATE" },
   { name: "ownerZip", match: "OWNER_ZIP" },
@@ -48,6 +49,7 @@ module.exports = app => {
       countyName,
       ownerName,
       ownerAddress,
+      ownerAddress2,
       ownerCity,
       ownerState,
       ownerZip,
@@ -61,6 +63,7 @@ module.exports = app => {
         to: {
           name: ownerName,
           address_line1: ownerAddress,
+          address_line2: ownerAddress2 || null,
           address_city: ownerCity,
           address_state: ownerState,
           address_zip: ownerZip,
@@ -69,6 +72,7 @@ module.exports = app => {
         from: {
           name: companyName,
           address_line1: address,
+          address_line2: address2 || null,
           address_city: city,
           address_state: state,
           address_zip: zipCode,

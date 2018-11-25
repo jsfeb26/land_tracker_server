@@ -12,6 +12,7 @@ const parcelSchema = new Schema({
 
   ownerName: { type: String, required: [true, "Owner Name is required"] },
   ownerAddress: { type: String, required: [true, "Owner Address is required"] },
+  ownerAddress2: String,
   ownerCity: { type: String, required: [true, "Owner City is required"] },
   ownerState: { type: String, required: [true, "Owner City is required"] },
   ownerZip: { type: String, required: [true, "Owner City is required"] },
