@@ -115,12 +115,10 @@ module.exports = app => {
           color: false
         },
         (err, res) => {
-          console.log("err", err);
-          console.log("res", res);
+          // TODO: handle error
         }
       );
 
-      console.log("lobRes----------------------", lobRes);
       if (lobRes) {
         parcel.status = "Sent";
         await parcel.save();
@@ -128,14 +126,12 @@ module.exports = app => {
         res.send(parcel);
       }
     } catch (e) {
-      console.log("e", e);
       const statusCode = e.status_code;
 
       if (statusCode === 422) {
         parcel.status = "Undeliverable";
         await parcel.save();
       }
-      console.log("status", statusCode);
 
       return res.status(statusCode).send(parcel);
     }
