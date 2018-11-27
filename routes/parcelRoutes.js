@@ -22,8 +22,8 @@ const fields = [
   { name: "parcelSize", match: "PARCEL_SIZE" },
   { name: "assessedValue", match: "ASSESSED_VALUE" },
   { name: "taxesDue", match: "TAXES_DUE" },
-  { name: "offer", match: "OFFER" },
-  { name: "legalDescription", match: "LEGAL_DESCRIPTION" }
+  { name: "offer", match: "OFFER" }
+  // { name: "legalDescription", match: "LEGAL_DESCRIPTION" }
 ];
 
 module.exports = app => {
