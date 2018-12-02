@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import { Circular } from "./Loader";
-import NewOrganizationForm from "./NewOrganizationForm";
+import { Circular } from './Loader';
+import NewOrganizationForm from './NewOrganizationForm';
 
-import * as actions from "../actions";
+import * as actions from '../actions';
 
 class Organization extends Component {
   renderContent() {

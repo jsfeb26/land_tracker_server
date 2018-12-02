@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from "react";
-import { reduxForm, Field } from "redux-form";
+import React, { Component, Fragment } from 'react';
+import { reduxForm, Field } from 'redux-form';
 
-import { Linear } from "./Loader";
+import { Linear } from './Loader';
 
 class NewOrganizationForm extends Component {
   onSubmit = formProps => {
@@ -183,7 +183,11 @@ class NewOrganizationForm extends Component {
 
           <div className="row">
             <div className="input-field col s12">
-              <Field name="deedType" component="select" className="browser-default">
+              <Field
+                name="deedType"
+                component="select"
+                className="browser-default"
+              >
                 <option value="Warranty">Warranty</option>
                 <option value="Special Warranty">Special Warranty</option>
                 <option value="Quit Claim">Quit Claim</option>
@@ -275,4 +279,4 @@ class NewOrganizationForm extends Component {
   }
 }
 
-export default reduxForm({ form: "newOrganization" })(NewOrganizationForm);
+export default reduxForm({ form: 'newOrganization' })(NewOrganizationForm);

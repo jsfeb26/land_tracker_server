@@ -1,17 +1,23 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
-import { withStyles } from "@material-ui/core/styles";
-import { InputLabel, MenuItem, FormControl, Select, Button } from "@material-ui/core";
+import { withStyles } from '@material-ui/core/styles';
+import {
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+  Button
+} from '@material-ui/core';
 
 const styles = theme => ({
   formControl: {
     minWidth: 120
   },
   select: {
-    width: "380px"
+    width: '380px'
   },
   searchButton: {
-    marginLeft: "auto"
+    marginLeft: 'auto'
   }
 });
 
@@ -20,7 +26,7 @@ class ParcelTopPageMenu extends Component {
     super(props);
 
     this.state = {
-      orgId: ""
+      orgId: ''
     };
   }
 
@@ -37,8 +43,8 @@ class ParcelTopPageMenu extends Component {
               value={orgId}
               onChange={onSelectOrg}
               inputProps={{
-                name: "organization",
-                id: "organization"
+                name: 'organization',
+                id: 'organization'
               }}
             >
               {userOrgs.map(userOrg => (

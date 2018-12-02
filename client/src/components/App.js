@@ -1,14 +1,14 @@
-import React, { Component, Fragment } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
-import { connect } from "react-redux";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import * as actions from "../actions";
+import React, { Component, Fragment } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import * as actions from '../actions';
 
-import Header from "./Header";
-import Landing from "./Landing";
-import Organization from "./Organization";
-import BulkParcelUpload from "./BulkParcelUpload";
-import Parcels from "./Parcels";
+import Header from './Header';
+import Landing from './Landing';
+import Organization from './Organization';
+import BulkParcelUpload from './BulkParcelUpload';
+import Parcels from './Parcels';
 
 const Dashboard = () => <h2>Dashboard</h2>;
 

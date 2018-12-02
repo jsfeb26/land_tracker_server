@@ -1,19 +1,19 @@
-import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
-import * as actions from "../actions";
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import * as actions from '../actions';
 
-import ParcelTopPageMenu from "./ParcelTopPageMenu";
-import ParcelTimeline from "./ParcelTimeline";
-import ParcelTable from "./ParcelTable";
+import ParcelTopPageMenu from './ParcelTopPageMenu';
+import ParcelTimeline from './ParcelTimeline';
+import ParcelTable from './ParcelTable';
 
-import { Circular } from "./Loader";
+import { Circular } from './Loader';
 
 class Parcels extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      orgId: ""
+      orgId: ''
     };
   }
 

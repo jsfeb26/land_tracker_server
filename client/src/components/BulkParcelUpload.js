@@ -3,15 +3,22 @@
 // https://medium.com/ecmastack/uploading-files-with-react-js-and-node-js-e7e6b707f4ef
 // https://ashiknesin.com/blog/upload-file-using-axios-and-redux-form/
 
-import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
-import { reduxForm, Field } from "redux-form";
-import * as actions from "../actions";
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
+import * as actions from '../actions';
 
-import { withStyles } from "@material-ui/core/styles";
-import { InputLabel, MenuItem, FormControl, Select, TextField, Button } from "@material-ui/core";
+import { withStyles } from '@material-ui/core/styles';
+import {
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+  TextField,
+  Button
+} from '@material-ui/core';
 
-import { Circular } from "./Loader";
+import { Circular } from './Loader';
 
 // Issue with latest versions of redux-form
 // https://github.com/erikras/redux-form/issues/1989#issuecomment-287552919
@@ -38,33 +45,54 @@ const FileInput = ({
 const styles = theme => ({
   formControl: {
     minWidth: 120,
-    marginTop: "8px"
+    marginTop: '8px'
   },
   formElement: {
-    width: "380px"
+    width: '380px'
   },
   formButton: {
-    marginTop: "16px"
+    marginTop: '16px'
   }
 });
 
-const renderSelectField = ({ input, children, meta: { touched, error }, ...custom }) => (
+const renderSelectField = ({
+  input,
+  children,
+  meta: { touched, error },
+  ...custom
+}) => (
   <Fragment>
     <InputLabel htmlFor="organization" error={touched && error ? true : false}>
       Organization name
     </InputLabel>
-    <Select {...input} children={children} error={touched && error ? true : false} {...custom} />
+    <Select
+      {...input}
+      children={children}
+      error={touched && error ? true : false}
+      {...custom}
+    />
   </Fragment>
 );
 
-const renderTextField = ({ input, label, meta: { touched, error, warning }, ...custom }) => (
+const renderTextField = ({
+  input,
+  label,
+  meta: { touched, error, warning },
+  ...custom
+}) => (
   <Fragment>
-    <TextField label={label} error={touched && error ? true : false} {...input} {...custom} />
+    <TextField
+      label={label}
+      error={touched && error ? true : false}
+      {...input}
+      {...custom}
+    />
     {/* {touched && ((error && <span>{error}</span>) || (warning && <span>{warning}</span>))} */}
   </Fragment>
 );
 
-const required = value => (value || typeof value === "number" ? undefined : "Required");
+const required = value =>
+  value || typeof value === 'number' ? undefined : 'Required';
 
 class BulkParcelUpload extends Component {
   constructor(props) {
@@ -81,10 +109,10 @@ class BulkParcelUpload extends Component {
 
   onSubmit = data => {
     const formData = new FormData();
-    formData.append("organizationId", data.organizationId);
-    formData.append("parcelFile", data.parcelFile);
-    formData.append("countyName", data.countyName);
-    formData.append("countyState", data.countyState);
+    formData.append('organizationId', data.organizationId);
+    formData.append('parcelFile', data.parcelFile);
+    formData.append('countyName', data.countyName);
+    formData.append('countyState', data.countyState);
 
     this.props.onFileUpload(formData);
   };
@@ -139,7 +167,11 @@ class BulkParcelUpload extends Component {
           </FormControl>
 
           <FormControl className={classes.formControl}>
-            <Field name="parcelFile" component={FileInput} validate={[required]} />
+            <Field
+              name="parcelFile"
+              component={FileInput}
+              validate={[required]}
+            />
           </FormControl>
 
           <Button
@@ -161,7 +193,7 @@ function mapStateToProps({ org }) {
   return { org };
 }
 
-export default reduxForm({ form: "bulkParcelUpload" })(
+export default reduxForm({ form: 'bulkParcelUpload' })(
   connect(
     mapStateToProps,
     actions

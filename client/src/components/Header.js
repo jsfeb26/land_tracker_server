@@ -1,9 +1,9 @@
-import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
-import { withStyles } from "@material-ui/core/styles";
-import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
+import { withStyles } from '@material-ui/core/styles';
+import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 
 const styles = {
   root: {
@@ -17,9 +17,9 @@ const styles = {
     marginRight: 20
   },
   appBar: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center"
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   toolBar: {
     flexGrow: 1,
@@ -29,13 +29,16 @@ const styles = {
 
 class Header extends Component {
   HeaderLink = props => {
-    return <Link to={this.props.auth ? "/dashboard" : "/"} {...props} />;
+    return <Link to={this.props.auth ? '/dashboard' : '/'} {...props} />;
   };
   DashboardLink = props => {
-    return <Link to={"/dashboard"} {...props} />;
+    return <Link to={'/dashboard'} {...props} />;
   };
   LogoIcon = props => (
-    <img alt="LandTrackr" src="https://image.flaticon.com/icons/svg/888/888568.svg" />
+    <img
+      alt="LandTrackr"
+      src="https://image.flaticon.com/icons/svg/888/888568.svg"
+    />
   );
   renderContent() {
     switch (this.props.auth) {
@@ -70,7 +73,11 @@ class Header extends Component {
         <AppBar className={classes.appBar} position="static">
           <div className="toolbar-body">
             <Toolbar className={classes.toolBar}>
-              <Typography variant="title" className={classes.flex} component={this.HeaderLink}>
+              <Typography
+                variant="title"
+                className={classes.flex}
+                component={this.HeaderLink}
+              >
                 LandTrackr
               </Typography>
               {this.renderContent()}
