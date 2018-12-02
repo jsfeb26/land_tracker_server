@@ -1,13 +1,13 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const CountySchema = new Schema({
-  name: { type: String, required: [true, "Name is required"] },
+  name: { type: String, required: [true, 'Name is required'] },
   lastRefNumber: { type: Number, default: 0 }
 });
 
 const organizationSchema = new Schema({
-  companyName: { type: String, required: [true, "Name is required"] },
+  companyName: { type: String, required: [true, 'Name is required'] },
   contactName: String,
   address: String,
   address2: String,
@@ -16,7 +16,7 @@ const organizationSchema = new Schema({
     type: String,
     validate: {
       validator: state => state.length === 2,
-      message: "State must be 2 characters"
+      message: 'State must be 2 characters'
     }
   },
   zipCode: String,
@@ -27,7 +27,7 @@ const organizationSchema = new Schema({
   deedTitling: String,
   deedType: {
     type: String,
-    enum: ["Warranty", "Special Warranty", "Quit Claim"]
+    enum: ['Warranty', 'Special Warranty', 'Quit Claim']
   },
   docFee: Number,
   lateFee: Number,
@@ -36,24 +36,24 @@ const organizationSchema = new Schema({
   users: [
     {
       type: Schema.Types.ObjectId,
-      ref: "users"
+      ref: 'users'
     }
   ],
   counties: [CountySchema],
   parcels: [
     {
       type: Schema.Types.ObjectId,
-      ref: "parcels"
+      ref: 'parcels'
     }
   ]
 });
 
-organizationSchema.virtual("userCount").get(function() {
+organizationSchema.virtual('userCount').get(function() {
   return this.users.length;
 });
-organizationSchema.virtual("parcelCount").get(function() {
+organizationSchema.virtual('parcelCount').get(function() {
   return this.parcels.length;
 });
 
 // creates Organizations Model Class
-mongoose.model("organizations", organizationSchema);
+mongoose.model('organizations', organizationSchema);

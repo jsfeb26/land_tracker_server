@@ -1,17 +1,17 @@
-const mongoose = require("mongoose");
-const requireLogin = require("../middlewares/requireLogin");
+const mongoose = require('mongoose');
+const requireLogin = require('../middlewares/requireLogin');
 
-const Organization = mongoose.model("organizations");
-const User = mongoose.model("users");
+const Organization = mongoose.model('organizations');
+const User = mongoose.model('users');
 
 module.exports = app => {
-  app.get("/api/user_organizations", requireLogin, async (req, res) => {
+  app.get('/api/user_organizations', requireLogin, async (req, res) => {
     const { user } = req;
-    const fullUser = await User.findOne(user).populate("organizations");
+    const fullUser = await User.findOne(user).populate('organizations');
     res.send(fullUser.organizations);
   });
 
-  app.post("/api/organization", requireLogin, async (req, res) => {
+  app.post('/api/organization', requireLogin, async (req, res) => {
     const {
       companyName,
       contactName,
@@ -58,7 +58,7 @@ module.exports = app => {
     const validationResult = newOrganization.validateSync();
     if (validationResult) {
       // TODO: use validationResult.errors to send back more specific errors
-      return res.status(422).send({ error: "Bad data" });
+      return res.status(422).send({ error: 'Bad data' });
     }
 
     await Promise.all([newOrganization.save(), user.save()]);

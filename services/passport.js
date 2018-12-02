@@ -1,12 +1,12 @@
-const passport = require("passport");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
-const mongoose = require("mongoose");
-const keys = require("../config/keys");
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const mongoose = require('mongoose');
+const keys = require('../config/keys');
 
 // doing this instead of requiring because you can run into
 // issues when in testing environment where the file gets
 // required multiple times
-const User = mongoose.model("users"); // get User Model
+const User = mongoose.model('users'); // get User Model
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -24,7 +24,7 @@ passport.use(
     {
       clientID: keys.googleClientID,
       clientSecret: keys.googleClientSecret,
-      callbackURL: "/auth/google/callback",
+      callbackURL: '/auth/google/callback',
       proxy: true // fixes proxy issue when using heroku
     },
     async (accessToken, refreshToken, profile, done) => {
