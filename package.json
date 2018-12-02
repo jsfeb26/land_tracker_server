@@ -44,9 +44,11 @@
     "xlsx": "^0.13.5"
   },
   "devDependencies": {
+    "babel-eslint": "^9.0.0",
     "eslint": "^5.9.0",
-    "eslint-config-airbnb": "^17.1.0",
     "eslint-config-prettier": "^3.3.0",
+    "eslint-config-react-app": "^3.0.5",
+    "eslint-plugin-flowtype": "^2.50.3",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-prettier": "^3.0.0",
